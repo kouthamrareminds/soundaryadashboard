@@ -1,0 +1,2783 @@
+{
+  "students": {
+    "id": "students",
+    "sheetName": "01_Students",
+    "number": "01",
+    "title": "Students",
+    "description": "Student Master Directory & Academic Profiles",
+    "icon": "GraduationCap",
+    "primaryId": "Student ID",
+    "columnCount": 15,
+    "columns": [
+      {
+        "key": "Student ID",
+        "label": "Student ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "College Registration/USN",
+        "label": "College Registration/USN",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Full Name",
+        "label": "Full Name",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Programme",
+        "label": "Programme",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "MBA",
+          "MCA"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Batch",
+        "label": "Batch",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Primary Specialisation",
+        "label": "Primary Specialisation",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Secondary Specialisation",
+        "label": "Secondary Specialisation",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Assigned Training Stream",
+        "label": "Assigned Training Stream",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Email",
+        "label": "Email",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Mobile",
+        "label": "Mobile",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Registration Date",
+        "label": "Registration Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Internship Status",
+        "label": "Internship Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "On Internship",
+          "Not on Internship",
+          "Completed",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Training Participation Status",
+        "label": "Training Participation Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Registered",
+          "Active",
+          "Inactive",
+          "Withdrawn",
+          "Completed",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Placement Interest",
+        "label": "Placement Interest",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Seeking Placement",
+          "Not Seeking",
+          "Undecided",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Record Updated On",
+        "label": "Record Updated On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "assessment-attempts": {
+    "id": "assessment-attempts",
+    "sheetName": "02_Assessment_Attempts",
+    "number": "02",
+    "title": "Assessment Attempts",
+    "description": "Diagnostic, Baseline & Summative Assessment Records",
+    "icon": "FileSpreadsheet",
+    "primaryId": "Attempt ID",
+    "columnCount": 11,
+    "columns": [
+      {
+        "key": "Attempt ID",
+        "label": "Attempt ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Student ID",
+        "label": "Student ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "students",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Assessment Type",
+        "label": "Assessment Type",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Assessment Version",
+        "label": "Assessment Version",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Assigned Date",
+        "label": "Assigned Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Started Date",
+        "label": "Started Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Completed Date",
+        "label": "Completed Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Completion Status",
+        "label": "Completion Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Assigned",
+          "Started",
+          "Completed",
+          "Incomplete",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Overall Score",
+        "label": "Overall Score",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Maximum Score",
+        "label": "Maximum Score",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Report File ID",
+        "label": "Report File ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "student-files",
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "assessment-scores": {
+    "id": "assessment-scores",
+    "sheetName": "03_Assessment_Scores",
+    "number": "03",
+    "title": "Assessment Scores",
+    "description": "Competency & Dimension Evaluation Breakdown",
+    "icon": "BarChart3",
+    "primaryId": "Score ID",
+    "columnCount": 10,
+    "columns": [
+      {
+        "key": "Score ID",
+        "label": "Score ID",
+        "type": "number",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Attempt ID",
+        "label": "Attempt ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "assessment-attempts",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Dimension/Competency",
+        "label": "Dimension/Competency",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Raw Score",
+        "label": "Raw Score",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Maximum Score",
+        "label": "Maximum Score",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Normalised Score",
+        "label": "Normalised Score",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Proficiency Band",
+        "label": "Proficiency Band",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Assessment Stage",
+        "label": "Assessment Stage",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Baseline",
+          "Midpoint",
+          "Final",
+          "Reassessment"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Evaluator",
+        "label": "Evaluator",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Evaluation Date",
+        "label": "Evaluation Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "career-profiles": {
+    "id": "career-profiles",
+    "sheetName": "04_Career_Profiles",
+    "number": "04",
+    "title": "Career Profiles",
+    "description": "Role Recommendations, Strengths & Readiness Reviews",
+    "icon": "Compass",
+    "primaryId": "Profile ID",
+    "columnCount": 18,
+    "columns": [
+      {
+        "key": "Profile ID",
+        "label": "Profile ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Student ID",
+        "label": "Student ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "students",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Review Date",
+        "label": "Review Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Reviewer",
+        "label": "Reviewer",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Assessment Attempt IDs Used",
+        "label": "Assessment Attempt IDs Used",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Demonstrated Strengths",
+        "label": "Demonstrated Strengths",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Development Needs",
+        "label": "Development Needs",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Preferred Role",
+        "label": "Preferred Role",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Recommended Role",
+        "label": "Recommended Role",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Preferred Location",
+        "label": "Preferred Location",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Travel/Shift Conditions",
+        "label": "Travel/Shift Conditions",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Salary Expectation",
+        "label": "Salary Expectation",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Joining Availability",
+        "label": "Joining Availability",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Readiness Category",
+        "label": "Readiness Category",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Ready",
+          "Conditional",
+          "Needs Support",
+          "Not Assessed"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Rationale",
+        "label": "Rationale",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Next Action",
+        "label": "Next Action",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Next Review Date",
+        "label": "Next Review Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Is Current Profile",
+        "label": "Is Current Profile",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "filterable": true
+      }
+    ]
+  },
+  "student-files": {
+    "id": "student-files",
+    "sheetName": "05_Student_Files",
+    "number": "05",
+    "title": "Student Files",
+    "description": "Resumes, Video Resumes, Portfolios & Certifications",
+    "icon": "FolderArchive",
+    "primaryId": "File ID",
+    "columnCount": 15,
+    "columns": [
+      {
+        "key": "File ID",
+        "label": "File ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Student ID",
+        "label": "Student ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "students",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "File Type",
+        "label": "File Type",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Resume",
+          "Video Resume",
+          "LinkedIn",
+          "Assessment Report",
+          "Career Profile",
+          "Certificate",
+          "Portfolio",
+          "Other"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "File Name",
+        "label": "File Name",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Version",
+        "label": "Version",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "File URL",
+        "label": "File URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Uploaded On",
+        "label": "Uploaded On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Target Role",
+        "label": "Target Role",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Review Status",
+        "label": "Review Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Submitted",
+          "Under Review",
+          "Rework Required",
+          "Approved",
+          "Superseded"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Reviewer",
+        "label": "Reviewer",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Reviewed On",
+        "label": "Reviewed On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Feedback",
+        "label": "Feedback",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Rework Due Date",
+        "label": "Rework Due Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Approved On",
+        "label": "Approved On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Is Current Version",
+        "label": "Is Current Version",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "filterable": true
+      }
+    ]
+  },
+  "sessions": {
+    "id": "sessions",
+    "sheetName": "06_Sessions",
+    "number": "06",
+    "title": "Training Calendar",
+    "description": "Training Delivery Schedule, Hours & Competencies",
+    "icon": "Calendar",
+    "primaryId": "Session ID",
+    "columnCount": 21,
+    "columns": [
+      {
+        "key": "Session ID",
+        "label": "Session ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Programme",
+        "label": "Programme",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "MBA",
+          "MCA"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Training Stream/Group",
+        "label": "Training Stream/Group",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Module",
+        "label": "Module",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Session Topic",
+        "label": "Session Topic",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Target Competency",
+        "label": "Target Competency",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Delivery Mode",
+        "label": "Delivery Mode",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Offline",
+          "Online",
+          "Hybrid"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Planned Date",
+        "label": "Planned Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Planned Start",
+        "label": "Planned Start",
+        "type": "time",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Planned End",
+        "label": "Planned End",
+        "type": "time",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Planned Learning Hours",
+        "label": "Planned Learning Hours",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Trainer",
+        "label": "Trainer",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Actual Date",
+        "label": "Actual Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Actual Start",
+        "label": "Actual Start",
+        "type": "time",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Actual End",
+        "label": "Actual End",
+        "type": "time",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Actual Learning Hours",
+        "label": "Actual Learning Hours",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Session Status",
+        "label": "Session Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Planned",
+          "Confirmed",
+          "Completed",
+          "Partially Delivered",
+          "Rescheduled",
+          "Cancelled"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Completion Evidence URL",
+        "label": "Completion Evidence URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Variance Reason",
+        "label": "Variance Reason",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Revised Date",
+        "label": "Revised Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Verified By",
+        "label": "Verified By",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "attendance": {
+    "id": "attendance",
+    "sheetName": "07_Attendance",
+    "number": "07",
+    "title": "Attendance",
+    "description": "Session Attendance Logs & Follow-up Action Items",
+    "icon": "UserCheck",
+    "primaryId": "Attendance ID",
+    "columnCount": 12,
+    "columns": [
+      {
+        "key": "Attendance ID",
+        "label": "Attendance ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Session ID",
+        "label": "Session ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "sessions",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Student ID",
+        "label": "Student ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "students",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Expected to Attend",
+        "label": "Expected to Attend",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Yes",
+          "No",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Attendance Status",
+        "label": "Attendance Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Present",
+          "Late",
+          "Partial",
+          "Absent",
+          "Excused",
+          "Not Recorded"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Minutes Attended",
+        "label": "Minutes Attended",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Absence Reason",
+        "label": "Absence Reason",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Recorded By",
+        "label": "Recorded By",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Recorded On",
+        "label": "Recorded On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Follow-up Required",
+        "label": "Follow-up Required",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Yes",
+          "No",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Follow-up Owner",
+        "label": "Follow-up Owner",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Follow-up Status",
+        "label": "Follow-up Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Open",
+          "In Progress",
+          "Resolved",
+          "Not Required"
+        ],
+        "filterable": true
+      }
+    ]
+  },
+  "session-tasks": {
+    "id": "session-tasks",
+    "sheetName": "08_Session_Tasks",
+    "number": "08",
+    "title": "Session Tasks",
+    "description": "Deliverables, Assignments, Rubrics & Deadlines",
+    "icon": "ClipboardCheck",
+    "primaryId": "Task ID",
+    "columnCount": 13,
+    "columns": [
+      {
+        "key": "Task ID",
+        "label": "Task ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Session ID",
+        "label": "Session ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "sessions",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Task Title",
+        "label": "Task Title",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Competency Assessed",
+        "label": "Competency Assessed",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Individual/Team Task",
+        "label": "Individual/Team Task",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Individual",
+          "Team"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Required Output",
+        "label": "Required Output",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Instructions URL",
+        "label": "Instructions URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Rubric URL",
+        "label": "Rubric URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Maximum Score",
+        "label": "Maximum Score",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Pass Criteria",
+        "label": "Pass Criteria",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Assigned Date",
+        "label": "Assigned Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Due Date",
+        "label": "Due Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Evaluator",
+        "label": "Evaluator",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "student-submissions": {
+    "id": "student-submissions",
+    "sheetName": "09_Student_Submissions",
+    "number": "09",
+    "title": "Student Submissions",
+    "description": "Student Submissions, Evaluations & Rework Tracking",
+    "icon": "UploadCloud",
+    "primaryId": "Submission ID",
+    "columnCount": 19,
+    "columns": [
+      {
+        "key": "Submission ID",
+        "label": "Submission ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Task ID",
+        "label": "Task ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "session-tasks",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Student ID",
+        "label": "Student ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "students",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Team ID if Applicable",
+        "label": "Team ID if Applicable",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Attempt Number",
+        "label": "Attempt Number",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Submission Date",
+        "label": "Submission Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Submission URL",
+        "label": "Submission URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Submission Status",
+        "label": "Submission Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Assigned",
+          "Not Submitted",
+          "Submitted",
+          "Under Review",
+          "Rework Required",
+          "Approved"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Score",
+        "label": "Score",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Maximum Score",
+        "label": "Maximum Score",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Evaluation Result",
+        "label": "Evaluation Result",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Pass",
+          "Needs Rework",
+          "Fail",
+          "Not Evaluated"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Feedback",
+        "label": "Feedback",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Evaluator",
+        "label": "Evaluator",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Evaluated On",
+        "label": "Evaluated On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Rework Due Date",
+        "label": "Rework Due Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Approved On",
+        "label": "Approved On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Is Latest Attempt",
+        "label": "Is Latest Attempt",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Individual Contribution/Defence",
+        "label": "Individual Contribution/Defence",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Individual Score",
+        "label": "Individual Score",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "companies": {
+    "id": "companies",
+    "sheetName": "10_Companies",
+    "number": "10",
+    "title": "Companies",
+    "description": "Recruiter Directory, Account Owners & Relationships",
+    "icon": "Building2",
+    "primaryId": "Company ID",
+    "columnCount": 11,
+    "columns": [
+      {
+        "key": "Company ID",
+        "label": "Company ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Company Name",
+        "label": "Company Name",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Industry",
+        "label": "Industry",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Location",
+        "label": "Location",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Relationship Owner",
+        "label": "Relationship Owner",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Recruiter Name",
+        "label": "Recruiter Name",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Recruiter Email",
+        "label": "Recruiter Email",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Recruiter Phone",
+        "label": "Recruiter Phone",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Relationship Status",
+        "label": "Relationship Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Prospect",
+          "Contacted",
+          "Active",
+          "On Hold",
+          "Inactive"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Last Contact Date",
+        "label": "Last Contact Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Next Follow-up",
+        "label": "Next Follow-up",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "opportunities": {
+    "id": "opportunities",
+    "sheetName": "11_Opportunities",
+    "number": "11",
+    "title": "Opportunities",
+    "description": "Campus Drives, Job Roles, CTC & Eligibility Criteria",
+    "icon": "Briefcase",
+    "primaryId": "Opportunity ID",
+    "columnCount": 23,
+    "columns": [
+      {
+        "key": "Opportunity ID",
+        "label": "Opportunity ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Company ID",
+        "label": "Company ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "companies",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Role Title",
+        "label": "Role Title",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Opportunity Type",
+        "label": "Opportunity Type",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Job",
+          "Internship",
+          "Internship to Employment"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Eligible Programme",
+        "label": "Eligible Programme",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "MBA",
+          "MCA",
+          "MBA and MCA"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Eligible Streams",
+        "label": "Eligible Streams",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Required Skills",
+        "label": "Required Skills",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Eligibility Criteria",
+        "label": "Eligibility Criteria",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Location",
+        "label": "Location",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Work Mode",
+        "label": "Work Mode",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Onsite",
+          "Hybrid",
+          "Remote"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Fixed Pay",
+        "label": "Fixed Pay",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Variable Pay",
+        "label": "Variable Pay",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Total CTC",
+        "label": "Total CTC",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Salary Period/Currency",
+        "label": "Salary Period/Currency",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Openings Count",
+        "label": "Openings Count",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "JD URL",
+        "label": "JD URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Application URL",
+        "label": "Application URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Open Date",
+        "label": "Open Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Deadline",
+        "label": "Deadline",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Opportunity Status",
+        "label": "Opportunity Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Open",
+          "On Hold",
+          "Closed",
+          "Filled",
+          "Cancelled"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Placement Owner",
+        "label": "Placement Owner",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Last Verified On",
+        "label": "Last Verified On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "JD Description",
+        "label": "JD Description",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "applications": {
+    "id": "applications",
+    "sheetName": "12_Applications",
+    "number": "12",
+    "title": "Applications",
+    "description": "Student Placement Applications & Pipeline Stages",
+    "icon": "Send",
+    "primaryId": "Application ID",
+    "columnCount": 22,
+    "columns": [
+      {
+        "key": "Application ID",
+        "label": "Application ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Student ID",
+        "label": "Student ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "students",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Opportunity ID",
+        "label": "Opportunity ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "opportunities",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Eligibility Checked",
+        "label": "Eligibility Checked",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Yes",
+          "No",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Student Interest Confirmed",
+        "label": "Student Interest Confirmed",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Yes",
+          "No",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Applied On",
+        "label": "Applied On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Application Channel",
+        "label": "Application Channel",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Resume File ID Used",
+        "label": "Resume File ID Used",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "student-files",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Current Stage",
+        "label": "Current Stage",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Applied",
+          "Screening",
+          "Shortlisted",
+          "Assessment",
+          "Interview",
+          "Offered",
+          "Accepted",
+          "Joined",
+          "Rejected",
+          "Withdrawn",
+          "On Hold"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Stage Updated On",
+        "label": "Stage Updated On",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Next Action",
+        "label": "Next Action",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Next Action Owner",
+        "label": "Next Action Owner",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Next Action Date",
+        "label": "Next Action Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Final Outcome",
+        "label": "Final Outcome",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Ongoing",
+          "Rejected",
+          "Withdrawn",
+          "Offer Declined",
+          "Joined",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Rejection/Withdrawal Reason",
+        "label": "Rejection/Withdrawal Reason",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Offer Date",
+        "label": "Offer Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Offered Fixed Pay",
+        "label": "Offered Fixed Pay",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Offered Variable Pay",
+        "label": "Offered Variable Pay",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Offered CTC",
+        "label": "Offered CTC",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Offer Response",
+        "label": "Offer Response",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Pending",
+          "Accepted",
+          "Declined",
+          "Not Applicable"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Expected Joining Date",
+        "label": "Expected Joining Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Actual Joining Date",
+        "label": "Actual Joining Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "application-history": {
+    "id": "application-history",
+    "sheetName": "13_Application_History",
+    "number": "13",
+    "title": "Application History",
+    "description": "Stage Movements, Interview Rounds & Event Logs",
+    "icon": "History",
+    "primaryId": "Event ID",
+    "columnCount": 13,
+    "columns": [
+      {
+        "key": "Event ID",
+        "label": "Event ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Application ID",
+        "label": "Application ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "applications",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Event Date",
+        "label": "Event Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Previous Stage",
+        "label": "Previous Stage",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Applied",
+          "Screening",
+          "Shortlisted",
+          "Assessment",
+          "Interview",
+          "Offered",
+          "Accepted",
+          "Joined",
+          "Rejected",
+          "Withdrawn",
+          "On Hold"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "New Stage",
+        "label": "New Stage",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Applied",
+          "Screening",
+          "Shortlisted",
+          "Assessment",
+          "Interview",
+          "Offered",
+          "Accepted",
+          "Joined",
+          "Rejected",
+          "Withdrawn",
+          "On Hold"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Interview Round",
+        "label": "Interview Round",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Interview Date",
+        "label": "Interview Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Result",
+        "label": "Result",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Feedback",
+        "label": "Feedback",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Evidence URL",
+        "label": "Evidence URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Updated By",
+        "label": "Updated By",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Next Action",
+        "label": "Next Action",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Next Action Date",
+        "label": "Next Action Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "commitments": {
+    "id": "commitments",
+    "sheetName": "14_Commitments",
+    "number": "14",
+    "title": "Commitments",
+    "description": "Project Delivery Milestones, Hours & SLA Compliance",
+    "icon": "ShieldCheck",
+    "primaryId": "Commitment ID",
+    "columnCount": 19,
+    "columns": [
+      {
+        "key": "Commitment ID",
+        "label": "Commitment ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Programme",
+        "label": "Programme",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "MBA",
+          "MCA",
+          "Shared"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Stream if Applicable",
+        "label": "Stream if Applicable",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Deliverable",
+        "label": "Deliverable",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Agreed Quantity/Hours",
+        "label": "Agreed Quantity/Hours",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Unit",
+        "label": "Unit",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Scope Version",
+        "label": "Scope Version",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Approval Evidence URL",
+        "label": "Approval Evidence URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Original Due Date",
+        "label": "Original Due Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Approved Revised Due Date",
+        "label": "Approved Revised Due Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Owner",
+        "label": "Owner",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Actual Quantity",
+        "label": "Actual Quantity",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Forecast Completion Date",
+        "label": "Forecast Completion Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Actual Completion Date",
+        "label": "Actual Completion Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Acceptance Status",
+        "label": "Acceptance Status",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Not Submitted",
+          "Submitted",
+          "Rework Required",
+          "Accepted",
+          "Not Verified"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Accepted By",
+        "label": "Accepted By",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Evidence URL",
+        "label": "Evidence URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Risk",
+        "label": "Risk",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Low",
+          "Medium",
+          "High",
+          "Critical",
+          "Not Assessed"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Next Action",
+        "label": "Next Action",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  },
+  "finance": {
+    "id": "finance",
+    "sheetName": "15_Finance",
+    "number": "15",
+    "title": "Finance",
+    "description": "Invoices, Receipts, Budget vs Actuals & Commercials",
+    "icon": "IndianRupee",
+    "primaryId": "Entry ID",
+    "columnCount": 16,
+    "columns": [
+      {
+        "key": "Entry ID",
+        "label": "Entry ID",
+        "type": "string",
+        "isPrimary": true,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": true
+      },
+      {
+        "key": "Programme/Shared",
+        "label": "Programme/Shared",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "MBA",
+          "MCA",
+          "Shared"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Entry Type",
+        "label": "Entry Type",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Contract Value",
+          "Invoice",
+          "Receipt",
+          "Credit Note",
+          "Budgeted Cost",
+          "Actual Cost",
+          "Forecast Remaining Cost"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Category",
+        "label": "Category",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Invoice/Reference Number",
+        "label": "Invoice/Reference Number",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Linked Invoice ID",
+        "label": "Linked Invoice ID",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": true,
+        "targetModule": "finance",
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Entry Date",
+        "label": "Entry Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Due Date",
+        "label": "Due Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Base Amount",
+        "label": "Base Amount",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Tax Amount",
+        "label": "Tax Amount",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Total Amount",
+        "label": "Total Amount",
+        "type": "currency",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Counterparty",
+        "label": "Counterparty",
+        "type": "number",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Budget/Actual",
+        "label": "Budget/Actual",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Budget",
+          "Actual",
+          "Forecast"
+        ],
+        "filterable": true
+      },
+      {
+        "key": "Cost Allocation Basis",
+        "label": "Cost Allocation Basis",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Supporting Document URL",
+        "label": "Supporting Document URL",
+        "type": "url",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Verified By",
+        "label": "Verified By",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      }
+    ]
+  }
+}
