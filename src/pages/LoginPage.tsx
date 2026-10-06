@@ -57,21 +57,23 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
+      {/* Top-left logo */}
+      <div className="absolute top-4 left-6 z-20">
+        <div className="inline-block">
+          <img
+            src={raremindsLogo}
+            alt="RareMinds"
+            className="h-10 sm:h-12 w-auto object-contain"
+          />
+        </div>
+      </div>
       {/* Decorative Background Glows */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10 space-y-6">
-        {/* Brand Header */}
+        {/* Brand Header - title only */}
         <div className="text-center space-y-3">
-          <div className="inline-block bg-white p-3 rounded-2xl shadow-xl shadow-black/20 border border-slate-100/20">
-            <img
-              src={raremindsLogo}
-              alt="RareMinds - Applied Learning. Transforming Work"
-              className="h-10 sm:h-11 w-auto object-contain mx-auto"
-            />
-          </div>
-
           <div className="pt-2 px-2">
             <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">
               Soundarya Institute of Management and Science (SIMS)

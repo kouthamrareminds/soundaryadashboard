@@ -1654,8 +1654,6 @@
         "isForeignKey": false,
         "targetModule": null,
         "options": [
-          "Prospect",
-          "Contacted",
           "Active",
           "On Hold",
           "Inactive"

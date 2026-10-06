@@ -207,6 +207,30 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
           if (record['Company Name'] !== compName) {
             return false;
           }
+        } else if (quickCategoryFilter === 'CAREER_PENDING') {
+          if (record['Review Date'] && record['Recommended Role']) {
+            return false;
+          }
+        } else if (quickCategoryFilter === 'CAREER_EVALUATED') {
+          if (!record['Review Date'] || !record['Recommended Role']) {
+            return false;
+          }
+        } else if (quickCategoryFilter === 'TRACK:ANALYTICS') {
+          if (!/analyst|analytics|decision/i.test(String(record['Recommended Role'] || ''))) {
+            return false;
+          }
+        } else if (quickCategoryFilter === 'TRACK:BFSI') {
+          if (!/banking|credit|aml|portfolio|broking|finance/i.test(String(record['Recommended Role'] || ''))) {
+            return false;
+          }
+        } else if (quickCategoryFilter === 'TRACK:HR') {
+          if (!/hr|people|talent|advisory|counselor/i.test(String(record['Recommended Role'] || ''))) {
+            return false;
+          }
+        } else if (quickCategoryFilter === 'TRACK:TECH') {
+          if (!/cloud|ai|finops|governance|developer|tech|security/i.test(String(record['Recommended Role'] || ''))) {
+            return false;
+          }
         }
       }
 
@@ -371,10 +395,44 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
       list.push(<KPICard key="2" title="Active Hiring" value={active} iconName="CheckCircle2" colorScheme="emerald" />);
     } else if (moduleConfig.id === 'opportunities') {
       const open = filteredData.filter(r => r['Opportunity Status'] === 'Open').length;
-      const openings = filteredData.reduce((acc, r) => acc + (Number(r['Openings Count']) || 0), 0);
-      list.push(<KPICard key="1" title="Total Opportunities" value={total} iconName="Briefcase" colorScheme="blue" />);
-      list.push(<KPICard key="2" title="Active Drives" value={open} iconName="Send" colorScheme="emerald" />);
-      list.push(<KPICard key="3" title="Total Openings" value={openings} iconName="Users" colorScheme="indigo" />);
+      const filled = filteredData.filter(r => r['Opportunity Status'] === 'Filled').length;
+      const closed = filteredData.filter(r => r['Opportunity Status'] === 'Closed').length;
+      const totalOpenings = filteredData.reduce((acc, r) => acc + (Number(r['Openings Count']) || 0), 0);
+      const openOpenings = filteredData
+        .filter(r => r['Opportunity Status'] === 'Open')
+        .reduce((acc, r) => acc + (Number(r['Openings Count']) || 0), 0);
+
+      list.push(
+        <KPICard
+          key="1"
+          title="Total Opportunities"
+          value={total}
+          iconName="Briefcase"
+          colorScheme="blue"
+          subtext={`${open} Open • ${filled} Filled • ${closed} Closed`}
+        />
+      );
+      list.push(
+        <KPICard
+          key="2"
+          title="Active Drives"
+          value={open}
+          iconName="Send"
+          colorScheme="emerald"
+          change={`${openOpenings} Open Seats`}
+          subtext="Currently accepting student applications"
+        />
+      );
+      list.push(
+        <KPICard
+          key="3"
+          title="Total Openings"
+          value={totalOpenings}
+          iconName="Users"
+          colorScheme="indigo"
+          subtext={`${openOpenings} vacancies in active open drives`}
+        />
+      );
     } else if (moduleConfig.id === 'applications' && data.length > 0) {
       const allApps = data;
       const shortlisted = allApps.filter(r => ['Shortlisted', 'Assessment', 'Interview', 'Offered', 'Accepted', 'Joined'].includes(r['Current Stage'])).length;
@@ -436,21 +494,27 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
       list.push(<KPICard key="2" title="Accepted & Verified" value={accepted} iconName="CheckCircle2" colorScheme="emerald" />);
       list.push(<KPICard key="3" title="Low Risk" value={lowRisk} iconName="Award" colorScheme="purple" />);
     } else if (moduleConfig.id === 'career-profiles') {
-      const readyCount = filteredData.filter(
+      const allProfiles = data;
+      const readyCount = allProfiles.filter(
         p => p['Readiness Category'] === 'Ready' || p['Readiness Category'] === 'Industry Ready'
       ).length;
-      const withRecommendations = filteredData.filter(p => !!p['Recommended Role']).length;
-      const reviewed = filteredData.filter(p => !!p['Review Date']).length;
-      const readyRate = total > 0 ? Math.round((readyCount / total) * 100) : 0;
+      const withRecommendations = allProfiles.filter(p => !!p['Recommended Role']).length;
+      const reviewed = allProfiles.filter(p => !!p['Review Date']).length;
+      const readyRate = allProfiles.length > 0 ? Math.round((readyCount / allProfiles.length) * 100) : 0;
+
+      const pendingRecommendations = Math.max(0, allProfiles.length - withRecommendations);
+      const pendingReviewed = Math.max(0, allProfiles.length - reviewed);
 
       list.push(
         <KPICard
           key="1"
           title="Career Profiles"
-          value={total}
+          value={allProfiles.length}
           iconName="Compass"
           colorScheme="blue"
-          subtext="Student Readiness & Review Directory"
+          subtext={quickCategoryFilter ? 'Click to show all 58' : 'Student Readiness & Review Directory'}
+          onClick={() => setQuickCategoryFilter(null)}
+          isSelected={quickCategoryFilter === null}
         />
       );
       list.push(
@@ -467,21 +531,27 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
       list.push(
         <KPICard
           key="3"
-          title="Role Recommendations"
-          value={withRecommendations}
-          iconName="Briefcase"
+          title="Profiles Evaluated & Mapped"
+          value={reviewed}
+          iconName="CheckCircle2"
           colorScheme="indigo"
-          subtext="Mapped career clusters"
+          subtext="54 Completed • Click to filter evaluated"
+          onClick={() => setQuickCategoryFilter(prev => prev === 'CAREER_EVALUATED' ? null : 'CAREER_EVALUATED')}
+          isSelected={quickCategoryFilter === 'CAREER_EVALUATED'}
         />
       );
       list.push(
         <KPICard
           key="4"
-          title="Profiles Evaluated"
-          value={reviewed}
-          iconName="CheckCircle2"
-          colorScheme="purple"
-          subtext="Comprehensive review completed"
+          title="Pending Career Evaluation"
+          value={pendingReviewed}
+          iconName="Clock"
+          colorScheme="amber"
+          change="4 Pending"
+          isPositive={false}
+          subtext="Awaiting Review • Click to filter"
+          onClick={() => setQuickCategoryFilter(prev => prev === 'CAREER_PENDING' ? null : 'CAREER_PENDING')}
+          isSelected={quickCategoryFilter === 'CAREER_PENDING'}
         />
       );
     } else if (moduleConfig.id === 'finance') {
@@ -494,7 +564,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
     }
 
     return list;
-  }, [moduleConfig.id, filteredData]);
+  }, [moduleConfig.id, filteredData, data, quickCategoryFilter]);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
@@ -705,7 +775,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
 
       {/* KPI Cards Grid (when not in custom grouped view) */}
       {summaryKPIs.length > 0 && viewMode !== 'grouped' && viewMode !== 'matrix' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${summaryKPIs.length >= 5 ? 'lg:grid-cols-5' : 'lg:grid-cols-4'} gap-4`}>
           {summaryKPIs}
         </div>
       )}
@@ -778,37 +848,84 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            <div className="p-3 bg-blue-50/70 rounded-xl border border-blue-100">
-              <div className="text-xs font-semibold text-blue-900">Business & Data Analytics</div>
-              <div className="text-xl font-black text-blue-700 font-mono mt-1">
-                {filteredData.filter(p => /analyst|analytics|decision/i.test(String(p['Recommended Role'] || ''))).length} Candidates
-              </div>
-              <p className="text-[11px] text-blue-600/90 mt-0.5">Decision Support, BI & Data Interpretation</p>
-            </div>
-
-            <div className="p-3 bg-emerald-50/70 rounded-xl border border-emerald-100">
-              <div className="text-xs font-semibold text-emerald-900">Banking, BFSI & AML</div>
-              <div className="text-xl font-black text-emerald-700 font-mono mt-1">
-                {filteredData.filter(p => /banking|credit|aml|portfolio|broking|finance/i.test(String(p['Recommended Role'] || ''))).length} Candidates
-              </div>
-              <p className="text-[11px] text-emerald-600/90 mt-0.5">Credit Management, AML & Financial Advisory</p>
-            </div>
-
-            <div className="p-3 bg-indigo-50/70 rounded-xl border border-indigo-100">
-              <div className="text-xs font-semibold text-indigo-900">HRBP & People Advisory</div>
-              <div className="text-xl font-black text-indigo-700 font-mono mt-1">
-                {filteredData.filter(p => /hr|people|talent|advisory|counselor/i.test(String(p['Recommended Role'] || ''))).length} Candidates
-              </div>
-              <p className="text-[11px] text-indigo-600/90 mt-0.5">Talent Strategy, HR Operations & People Consulting</p>
-            </div>
-
-            <div className="p-3 bg-purple-50/70 rounded-xl border border-purple-100">
-              <div className="text-xs font-semibold text-purple-900">Cloud, AI & Tech Governance</div>
-              <div className="text-xl font-black text-purple-700 font-mono mt-1">
-                {filteredData.filter(p => /cloud|ai|finops|governance|developer|tech|security/i.test(String(p['Recommended Role'] || ''))).length} Candidates
-              </div>
-              <p className="text-[11px] text-purple-600/90 mt-0.5">Full-Stack, Cloud & Compliance Architecture</p>
-            </div>
+            {[
+              {
+                id: 'TRACK:ANALYTICS',
+                title: 'Business & Data Analytics',
+                subtitle: 'Decision Support, BI & Data Interpretation',
+                regex: /analyst|analytics|decision/i,
+                bg: 'bg-blue-50/70',
+                border: 'border-blue-100',
+                text: 'text-blue-900',
+                num: 'text-blue-700',
+                sub: 'text-blue-600/90',
+                ring: 'ring-blue-600',
+                dot: 'bg-blue-600',
+              },
+              {
+                id: 'TRACK:BFSI',
+                title: 'Banking, BFSI & AML',
+                subtitle: 'Credit Management, AML & Financial Advisory',
+                regex: /banking|credit|aml|portfolio|broking|finance/i,
+                bg: 'bg-emerald-50/70',
+                border: 'border-emerald-100',
+                text: 'text-emerald-900',
+                num: 'text-emerald-700',
+                sub: 'text-emerald-600/90',
+                ring: 'ring-emerald-600',
+                dot: 'bg-emerald-600',
+              },
+              {
+                id: 'TRACK:HR',
+                title: 'HRBP & People Advisory',
+                subtitle: 'Talent Strategy, HR Operations & People Consulting',
+                regex: /hr|people|talent|advisory|counselor/i,
+                bg: 'bg-indigo-50/70',
+                border: 'border-indigo-100',
+                text: 'text-indigo-900',
+                num: 'text-indigo-700',
+                sub: 'text-indigo-600/90',
+                ring: 'ring-indigo-600',
+                dot: 'bg-indigo-600',
+              },
+              {
+                id: 'TRACK:TECH',
+                title: 'Cloud, AI & Tech Governance',
+                subtitle: 'Full-Stack, Cloud & Compliance Architecture',
+                regex: /cloud|ai|finops|governance|developer|tech|security/i,
+                bg: 'bg-purple-50/70',
+                border: 'border-purple-100',
+                text: 'text-purple-900',
+                num: 'text-purple-700',
+                sub: 'text-purple-600/90',
+                ring: 'ring-purple-600',
+                dot: 'bg-purple-600',
+              },
+            ].map(track => {
+              const isSelected = quickCategoryFilter === track.id;
+              const count = data.filter(p => track.regex.test(String(p['Recommended Role'] || ''))).length;
+              return (
+                <div
+                  key={track.id}
+                  onClick={() => setQuickCategoryFilter(prev => prev === track.id ? null : track.id)}
+                  className={`p-3 rounded-xl border ${track.bg} ${track.border} cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all ${
+                    isSelected ? `ring-2 ${track.ring} ring-offset-1 shadow-md scale-[1.02]` : ''
+                  }`}
+                  title={`Click to filter ${track.title} candidates (${count})`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className={`text-xs font-semibold ${track.text}`}>{track.title}</div>
+                    {isSelected && <span className={`w-2 h-2 rounded-full ${track.dot} shrink-0 animate-pulse`} />}
+                  </div>
+                  <div className={`text-xl font-black font-mono mt-1 ${track.num}`}>
+                    {count} <span className="text-xs font-normal opacity-85">Candidates</span>
+                  </div>
+                  <p className={`text-[11px] mt-0.5 ${track.sub}`}>
+                    {isSelected ? '✓ Filter Active • Click to clear' : track.subtitle}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
@@ -867,6 +984,12 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
               {quickCategoryFilter === 'SHORTLISTED' && 'Shortlisted Candidates (34 Records)'}
               {quickCategoryFilter === 'AWAITING_FEEDBACK' && 'Awaiting Corporate Feedback (14 Records)'}
               {quickCategoryFilter === 'NOT_MAPPED' && 'Not Mapped / Screening Feedback Awaited (12 Records)'}
+              {quickCategoryFilter === 'CAREER_PENDING' && 'Pending Career Evaluation (4 Students)'}
+              {quickCategoryFilter === 'CAREER_EVALUATED' && 'Evaluated & Role Mapped Candidates (54 Students)'}
+              {quickCategoryFilter === 'TRACK:ANALYTICS' && 'Business & Data Analytics Track Candidates'}
+              {quickCategoryFilter === 'TRACK:BFSI' && 'Banking, BFSI & AML Track Candidates'}
+              {quickCategoryFilter === 'TRACK:HR' && 'HRBP & People Advisory Track Candidates'}
+              {quickCategoryFilter === 'TRACK:TECH' && 'Cloud, AI & Tech Governance Track Candidates'}
               {quickCategoryFilter.startsWith('COMPANY:') && `${quickCategoryFilter.replace('COMPANY:', '')} Shortlisted Candidates (${filteredData.length} Records)`}
             </span>
             <span className="text-blue-600 font-medium">Showing {filteredData.length} of {data.length} records</span>

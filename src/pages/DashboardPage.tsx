@@ -568,7 +568,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           value={readyStudentsCount}
           iconName="Compass"
           colorScheme="amber"
-          subtext={`${readinessRate}% Ready (${readyStudentsCount}/${totalStudents}) • ${conditionalCount} Conditional`}
+          subtext={`${readinessRate}% Ready (${readyStudentsCount}/${totalStudents})`}
           change={`${readyStudentsCount} Verified`}
           delay={0.25}
         />
