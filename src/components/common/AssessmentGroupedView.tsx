@@ -18,7 +18,8 @@ import {
   Calendar,
   AlertCircle,
   HelpCircle,
-  BookOpen
+  BookOpen,
+  Sparkles
 } from 'lucide-react';
 import { normalizeStreamName } from '@/services/dataService';
 
@@ -37,6 +38,10 @@ const STREAM_TABS = [
   { id: 'Business Analyst', label: 'MBA — Business Analyst', programme: 'MBA', color: 'blue' },
   { id: 'MCA', label: 'MCA Stream', programme: 'MCA', color: 'purple' },
 ];
+
+export const isPsychometricAssessment = (testType: string): boolean => {
+  return /big five|riasec|work values|employability/i.test(testType);
+};
 
 export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
   attempts,
@@ -190,28 +195,43 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
         return true;
       });
 
+      const isPsychometric = isPsychometricAssessment(testType);
       const totalTakers = matchingAttempts.length;
+      const completedAttempts = matchingAttempts.filter(
+        a => a['Completion Status'] === 'Completed' || !!a['Completed Date']
+      );
+      const completedCount = completedAttempts.length;
+
       const scores = matchingAttempts.map(a => Number(a['Overall Score']) || 0);
-      const maxScore = matchingAttempts.length > 0 ? (Number(matchingAttempts[0]['Maximum Score']) || 50) : 50;
-      const avgScore = totalTakers > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / totalTakers) : 0;
-      const avgPct = maxScore > 0 ? Math.round((avgScore / maxScore) * 100) : 0;
-      const highestScore = totalTakers > 0 ? Math.max(...scores) : 0;
+      const rawMax = Number(matchingAttempts[0]?.['Maximum Score']);
+      const maxScore = isPsychometric ? 0 : (rawMax && rawMax > 0 ? rawMax : 50);
+      const avgScore = isPsychometric ? 0 : (totalTakers > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / totalTakers) : 0);
+      const avgPct = isPsychometric
+        ? (totalTakers > 0 ? Math.round((completedCount / totalTakers) * 100) : 0)
+        : (maxScore > 0 ? Math.round((avgScore / maxScore) * 100) : 0);
+      const highestScore = isPsychometric ? 0 : (totalTakers > 0 ? Math.max(...scores) : 0);
 
       // Buckets for this test
-      const high = matchingAttempts.filter(a => {
-        const pct = maxScore > 0 ? Math.round(((Number(a['Overall Score']) || 0) / maxScore) * 100) : 0;
-        return pct >= 75;
-      }).length;
+      const high = isPsychometric
+        ? completedCount
+        : matchingAttempts.filter(a => {
+            const pct = maxScore > 0 ? Math.round(((Number(a['Overall Score']) || 0) / maxScore) * 100) : 0;
+            return pct >= 75;
+          }).length;
 
-      const mid = matchingAttempts.filter(a => {
-        const pct = maxScore > 0 ? Math.round(((Number(a['Overall Score']) || 0) / maxScore) * 100) : 0;
-        return pct >= 60 && pct < 75;
-      }).length;
+      const mid = isPsychometric
+        ? 0
+        : matchingAttempts.filter(a => {
+            const pct = maxScore > 0 ? Math.round(((Number(a['Overall Score']) || 0) / maxScore) * 100) : 0;
+            return pct >= 60 && pct < 75;
+          }).length;
 
-      const low = matchingAttempts.filter(a => {
-        const pct = maxScore > 0 ? Math.round(((Number(a['Overall Score']) || 0) / maxScore) * 100) : 0;
-        return pct < 60;
-      }).length;
+      const low = isPsychometric
+        ? (totalTakers - completedCount)
+        : matchingAttempts.filter(a => {
+            const pct = maxScore > 0 ? Math.round(((Number(a['Overall Score']) || 0) / maxScore) * 100) : 0;
+            return pct < 60;
+          }).length;
 
       const studentList = matchingAttempts
         .map(att => {
@@ -220,7 +240,8 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
             ? normalizeStreamName(student['Assigned Training Stream'], student.Programme, student['Primary Specialisation'])
             : 'General';
           const score = Number(att['Overall Score']) || 0;
-          const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+          const isDone = att['Completion Status'] === 'Completed' || !!att['Completed Date'];
+          const pct = isPsychometric ? (isDone ? 100 : 0) : (maxScore > 0 ? Math.round((score / maxScore) * 100) : 0);
           return {
             attempt: att,
             studentId: att['Student ID'],
@@ -231,6 +252,7 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
             score,
             maxScore,
             pct,
+            isPsychometric,
             status: att['Completion Status'] || 'Completed',
             date: att['Completed Date'] || att['Assigned Date'] || '',
           };
@@ -256,6 +278,8 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
 
       return {
         testType,
+        isPsychometric,
+        completedCount,
         totalTakers,
         filteredTakers: studentList.length,
         avgScore,
@@ -766,10 +790,13 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                           {student.attempts.map((att: any, idx: number) => {
+                            const isPsy = isPsychometricAssessment(att['Assessment Type']);
                             const score = Number(att['Overall Score']) || 0;
                             const maxScore = Number(att['Maximum Score']) || 50;
-                            const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
-                            const attBucket = getScoreBucketBadge(pct);
+                            const pct = isPsy ? 100 : (maxScore > 0 ? Math.round((score / maxScore) * 100) : 0);
+                            const attBucket = isPsy
+                              ? { label: 'Psychometric Profile', bg: 'bg-indigo-50 text-indigo-700 border-indigo-200' }
+                              : getScoreBucketBadge(pct);
 
                             return (
                               <div
@@ -793,15 +820,23 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
 
                                 <div className="space-y-1">
                                   <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-500 font-medium">Score</span>
+                                    <span className="text-slate-500 font-medium">
+                                      {isPsy ? 'Evaluation' : 'Score'}
+                                    </span>
                                     <span className="font-mono font-bold text-slate-900">
-                                      {score} / {maxScore} <span className="text-[10px] text-slate-400">({pct}%)</span>
+                                      {isPsy ? (
+                                        <span className="text-emerald-700 font-sans text-xs">Completed</span>
+                                      ) : (
+                                        <>
+                                          {score} / {maxScore} <span className="text-[10px] text-slate-400">({pct}%)</span>
+                                        </>
+                                      )}
                                     </span>
                                   </div>
                                   <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                                     <div
                                       className={`h-full rounded-full ${
-                                        pct >= 75 ? 'bg-emerald-500' : pct >= 60 ? 'bg-blue-500' : 'bg-amber-500'
+                                        isPsy ? 'bg-indigo-500' : pct >= 75 ? 'bg-emerald-500' : pct >= 60 ? 'bg-blue-500' : 'bg-amber-500'
                                       }`}
                                       style={{ width: `${pct}%` }}
                                     />
@@ -923,6 +958,21 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
                               </td>
                             );
                           }
+                          const isPsychometric = isPsychometricAssessment(testType);
+                          if (isPsychometric) {
+                            return (
+                              <td key={testType} className="py-3 px-3 text-center">
+                                <button
+                                  onClick={() => onAttemptClick && onAttemptClick(att)}
+                                  className="px-2 py-0.5 rounded-lg font-sans font-semibold text-[11px] border border-teal-200 bg-teal-50 text-teal-800 hover:bg-teal-100 transition-all hover:scale-105"
+                                  title={`${att['Attempt ID']} • Profiling Completed`}
+                                >
+                                  Profiled
+                                </button>
+                              </td>
+                            );
+                          }
+
                           const score = Number(att['Overall Score']) || 0;
                           const maxScore = Number(att['Maximum Score']) || 50;
                           const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
@@ -996,29 +1046,43 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
 
                   {/* Test Benchmarks */}
                   <div className="flex items-center gap-4 text-xs flex-wrap">
-                    <div>
-                      <span className="text-slate-400">Class Avg: </span>
-                      <span className="font-mono font-bold text-slate-900">
-                        {subject.avgScore} / {subject.maxScore} ({subject.avgPct}%)
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-slate-400">Top Score: </span>
-                      <span className="font-mono font-bold text-emerald-700">
-                        {subject.highestScore} / {subject.maxScore}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 pl-2 border-l border-slate-200">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        ≥75%: {subject.high}
-                      </span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
-                        60–74%: {subject.mid}
-                      </span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200">
-                        &lt;60%: {subject.low}
-                      </span>
-                    </div>
+                    {subject.isPsychometric ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 border border-teal-200">
+                          Behavioral & Psychometric Profiling
+                        </span>
+                        <span className="text-slate-500">Profiled: </span>
+                        <span className="font-mono font-bold text-teal-800">
+                          {subject.completedCount} / {subject.totalTakers} ({subject.avgPct}%)
+                        </span>
+                      </div>
+                    ) : (
+                      <>
+                        <div>
+                          <span className="text-slate-400">Class Avg: </span>
+                          <span className="font-mono font-bold text-slate-900">
+                            {subject.avgScore} / {subject.maxScore} ({subject.avgPct}%)
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-slate-400">Top Score: </span>
+                          <span className="font-mono font-bold text-emerald-700">
+                            {subject.highestScore} / {subject.maxScore}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5 pl-2 border-l border-slate-200">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            ≥75%: {subject.high}
+                          </span>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+                            60–74%: {subject.mid}
+                          </span>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200">
+                            &lt;60%: {subject.low}
+                          </span>
+                        </div>
+                      </>
+                    )}
                     <div className="text-slate-400">
                       {isTestExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                     </div>
@@ -1033,9 +1097,15 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
                         <tr className="bg-slate-50/60 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold text-[10px]">
                           <th className="py-3 px-4 min-w-[200px]">Student ID & Name</th>
                           <th className="py-3 px-3 min-w-[130px]">Programme & Stream</th>
-                          <th className="py-3 px-3 text-center min-w-[110px]">Score / Max</th>
-                          <th className="py-3 px-3 text-center min-w-[110px]">Percentage</th>
-                          <th className="py-3 px-3 text-center min-w-[120px]">Score Bucket</th>
+                          <th className="py-3 px-3 text-center min-w-[110px]">
+                            {subject.isPsychometric ? 'Evaluation' : 'Score / Max'}
+                          </th>
+                          <th className="py-3 px-3 text-center min-w-[110px]">
+                            {subject.isPsychometric ? 'Completion' : 'Percentage'}
+                          </th>
+                          <th className="py-3 px-3 text-center min-w-[120px]">
+                            {subject.isPsychometric ? 'Assessment Type' : 'Score Bucket'}
+                          </th>
                           <th className="py-3 px-3 min-w-[100px]">Completion Date</th>
                           <th className="py-3 px-3 text-center min-w-[100px]">Status</th>
                           <th className="py-3 px-4 text-right min-w-[90px]">Profile</th>
@@ -1073,19 +1143,37 @@ export const AssessmentGroupedView: React.FC<AssessmentGroupedViewProps> = ({
                                   </span>
                                 </td>
 
-                                <td className="py-2.5 px-3 text-center font-mono font-bold text-slate-900">
-                                  {st.score} / {st.maxScore}
-                                </td>
-
-                                <td className="py-2.5 px-3 text-center font-mono font-bold text-slate-800">
-                                  {st.pct}%
-                                </td>
-
-                                <td className="py-2.5 px-3 text-center">
-                                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${bucket.bg}`}>
-                                    {bucket.label}
-                                  </span>
-                                </td>
+                                {subject.isPsychometric ? (
+                                  <>
+                                    <td className="py-2.5 px-3 text-center">
+                                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
+                                        Completed
+                                      </span>
+                                    </td>
+                                    <td className="py-2.5 px-3 text-center font-mono font-bold text-teal-700">
+                                      100%
+                                    </td>
+                                    <td className="py-2.5 px-3 text-center">
+                                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-teal-50 text-teal-800 border border-teal-200">
+                                        Psychometric Profile
+                                      </span>
+                                    </td>
+                                  </>
+                                ) : (
+                                  <>
+                                    <td className="py-2.5 px-3 text-center font-mono font-bold text-slate-900">
+                                      {st.score} / {st.maxScore}
+                                    </td>
+                                    <td className="py-2.5 px-3 text-center font-mono font-bold text-slate-800">
+                                      {st.pct}%
+                                    </td>
+                                    <td className="py-2.5 px-3 text-center">
+                                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${bucket.bg}`}>
+                                        {bucket.label}
+                                      </span>
+                                    </td>
+                                  </>
+                                )}
 
                                 <td className="py-2.5 px-3 text-slate-500 font-mono text-[11px]">
                                   {st.date || '—'}

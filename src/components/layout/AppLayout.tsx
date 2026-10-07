@@ -24,6 +24,7 @@ interface AppLayoutProps {
   uploadDefaultModule?: string;
   currentUser?: AuthUser | null;
   onLogout?: () => void;
+  onSyncSuccess?: (newDb: any) => void;
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
@@ -44,6 +45,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   uploadDefaultModule = 'students',
   currentUser,
   onLogout,
+  onSyncSuccess,
 }) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -93,6 +95,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           }}
           onNavigate={handleMobileNavigate}
           onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onSyncSuccess={onSyncSuccess}
         />
 
         {/* Scrollable Page Body */}
