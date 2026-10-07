@@ -12,9 +12,9 @@ export { AuthForbiddenError };
 
 // ─── Storage Keys & Schema Version ──────────────────────────────────────────
 
-const SCHEMA_VERSION = 'v2026.10.06_clean_drive_restore_v33';
+const SCHEMA_VERSION = 'v2026.10.07_placement_update_v35';
 const VERSION_STORAGE_KEY = 'rareminds_portal_schema_version';
-const STORAGE_KEY = 'rareminds_portal_real_db_v33';
+const STORAGE_KEY = 'rareminds_portal_real_db_v35';
 
 // ─── Stream Normalizer Helper ───────────────────────────────────────────────
 export function normalizeStreamName(stream?: string, programme?: string, spec?: string): string {

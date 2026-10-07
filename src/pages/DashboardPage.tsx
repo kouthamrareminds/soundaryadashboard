@@ -305,6 +305,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     joined: relevantApps.filter(a => a['Current Stage'] === 'Joined' || a['Offer Response'] === 'Accepted').length,
   };
 
+  const offeredApps = relevantApps.filter(a => (Number(a['Offered CTC']) || 0) > 0);
+  const avgCTC = offeredApps.length > 0
+    ? (offeredApps.reduce((acc, a) => acc + (Number(a['Offered CTC']) || 0), 0) / offeredApps.length / 100000).toFixed(1)
+    : '0';
+
   // Commitments
   const totalCommitments = db.commitments.length;
   const acceptedCommitments = db.commitments.filter(c => c['Acceptance Status'] === 'Accepted').length;
@@ -578,7 +583,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           iconName="Briefcase"
           colorScheme="blue"
           subtext="Campus drives currently open"
-          change="60 total openings"
+          change={`${relevantApps.length} Suitable Opportunities`}
           delay={0.3}
         />
         <KPICard
@@ -586,8 +591,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           value={funnel.offered}
           iconName="Send"
           colorScheme="emerald"
-          subtext={`Avg CTC: ₹7.8 LPA • ${funnel.joined} Accepted`}
-          change="Offers Confirmed"
+          subtext={`Avg CTC: ₹${avgCTC} LPA • ${funnel.joined} Accepted`}
+          change={`${funnel.offered} Confirmed`}
           delay={0.35}
         />
 
@@ -597,8 +602,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-900">Campus Placement Pipeline</h3>
-            <p className="text-xs text-slate-500">Funnel progression across active job & internship drives</p>
+            <h3 className="text-base font-bold text-slate-900">Funnel progression across active job & internship drives</h3>
           </div>
           <button
             onClick={() => onNavigateModule('applications')}

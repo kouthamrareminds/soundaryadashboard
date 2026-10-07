@@ -195,7 +195,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
             return false;
           }
         } else if (quickCategoryFilter === 'AWAITING_FEEDBACK') {
-          if (record['Company Name'] === 'Not Mapped' || record['Current Stage'] === 'Shortlisted') {
+          if (record['Company Name'] === 'Not Mapped' || ['Shortlisted', 'Assessment', 'Interview', 'Offered', 'Accepted', 'Joined'].includes(record['Current Stage'])) {
             return false;
           }
         } else if (quickCategoryFilter === 'NOT_MAPPED') {
@@ -437,7 +437,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
       const allApps = data;
       const shortlisted = allApps.filter(r => ['Shortlisted', 'Assessment', 'Interview', 'Offered', 'Accepted', 'Joined'].includes(r['Current Stage'])).length;
       const notMapped = allApps.filter(r => r['Company Name'] === 'Not Mapped').length;
-      const awaitingFeedback = allApps.filter(r => r['Company Name'] !== 'Not Mapped' && r['Current Stage'] !== 'Shortlisted').length;
+      const awaitingFeedback = allApps.filter(r => r['Company Name'] !== 'Not Mapped' && !['Shortlisted', 'Assessment', 'Interview', 'Offered', 'Accepted', 'Joined'].includes(r['Current Stage'])).length;
       const shortlistPct = allApps.length > 0 ? Math.round((shortlisted / allApps.length) * 100) : 0;
       list.push(
         <KPICard
@@ -806,7 +806,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
             ].map(item => {
               const isSelected = quickCategoryFilter === `COMPANY:${item.company}`;
               const count = data.filter(
-                a => a['Company Name'] === item.company && a['Current Stage'] === 'Shortlisted'
+                a => a['Company Name'] === item.company && ['Shortlisted', 'Assessment', 'Interview', 'Offered', 'Accepted', 'Joined'].includes(a['Current Stage'])
               ).length;
               return (
                 <div
