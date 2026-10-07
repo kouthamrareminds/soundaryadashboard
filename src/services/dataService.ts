@@ -7,14 +7,20 @@
 
 import { DatabaseState, initialDatabase, MODULE_DATA_KEY_MAP } from '@/data/mockData';
 import { assertPermission, AuthForbiddenError } from '@/services/authService';
+import {
+  syncRecordCreationToGoogleSheet,
+  syncRecordUpdateToGoogleSheet,
+  syncRecordDeletionToGoogleSheet,
+  syncBulkImportToGoogleSheet,
+} from '@/services/googleSheetsService';
 
 export { AuthForbiddenError };
 
 // ─── Storage Keys & Schema Version ──────────────────────────────────────────
 
-const SCHEMA_VERSION = 'v2026.10.07_placement_update_v39';
+const SCHEMA_VERSION = 'v2026.10.07_placement_update_v40';
 const VERSION_STORAGE_KEY = 'rareminds_portal_schema_version';
-const STORAGE_KEY = 'rareminds_portal_real_db_v39';
+const STORAGE_KEY = 'rareminds_portal_real_db_v40';
 
 // ─── Stream Normalizer Helper ───────────────────────────────────────────────
 export function normalizeStreamName(stream?: string, programme?: string, spec?: string): string {
@@ -112,7 +118,9 @@ function sanitizeDatabase(database: DatabaseState): DatabaseState {
     }));
   }
   if (Array.isArray(database.applications)) {
-    database.applications = database.applications.map(a => {
+    database.applications = database.applications
+      .filter(a => a['Student ID'] !== 'P03KU24M015037' && a['Application ID'] !== 'APP-0037' && a['Student Name'] !== 'Likhitha B')
+      .map(a => {
       let updated = {
         ...a,
         'Company Name': a['Company Name'] === 'Radall' ? 'Radiall' : a['Company Name'],
@@ -231,6 +239,7 @@ export function createRecord(db: DatabaseState, moduleId: string, record: any): 
     [key]: [record, ...(db as any)[key]],
   };
   saveDatabase(updated);
+  syncRecordCreationToGoogleSheet(moduleId, record);
   return updated;
 }
 
@@ -255,6 +264,7 @@ export function updateRecord(
     ),
   };
   saveDatabase(updated);
+  syncRecordUpdateToGoogleSheet(moduleId, primaryId, primaryValue, updates);
   return updated;
 }
 
@@ -276,6 +286,7 @@ export function deleteRecord(
     [key]: (db as any)[key].filter((rec: any) => rec[primaryId] !== primaryValue),
   };
   saveDatabase(updated);
+  syncRecordDeletionToGoogleSheet(moduleId, primaryId, primaryValue);
   return updated;
 }
 
@@ -307,6 +318,9 @@ export function bulkImport(
     [key]: [...toImport, ...existing],
   };
   saveDatabase(updatedDb);
+  if (toImport.length > 0) {
+    syncBulkImportToGoogleSheet(moduleId, toImport);
+  }
   return { updatedDb, imported: toImport.length, skipped };
 }
 

@@ -11,10 +11,12 @@ import {
   Calendar,
   Building2,
   CheckCircle2,
-  Menu
+  Menu,
+  FileSpreadsheet
 } from 'lucide-react';
 
 import { AuthUser } from '@/services/authService';
+import { GoogleSheetsSyncModal } from '@/components/common/GoogleSheetsSyncModal';
 
 interface TopbarProps {
   onSearchSelect?: (targetModule: string, id: string) => void;
@@ -24,6 +26,7 @@ interface TopbarProps {
   onToggleMobileMenu?: () => void;
   currentUser?: AuthUser | null;
   onLogout?: () => void;
+  onSyncSuccess?: (newDb: any) => void;
 }
 
 export const Topbar: React.FC<TopbarProps> = ({
@@ -34,11 +37,13 @@ export const Topbar: React.FC<TopbarProps> = ({
   onToggleMobileMenu,
   currentUser,
   onLogout,
+  onSyncSuccess,
 }) => {
   const [globalSearch, setGlobalSearch] = useState('');
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [academicYear, setAcademicYear] = useState('2024–2026 (Active)');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showGoogleSync, setShowGoogleSync] = useState(false);
 
   const searchRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -185,6 +190,16 @@ export const Topbar: React.FC<TopbarProps> = ({
 
       {/* Right Controls: Cohort Selector, Notifications, User Profile */}
       <div className="flex items-center gap-3">
+        {/* Google Sheets Live Sync Trigger */}
+        <button
+          onClick={() => setShowGoogleSync(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/90 rounded-xl text-xs font-semibold transition-colors shadow-2xs"
+          title="Google Sheets Live Sync"
+        >
+          <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+          <span className="hidden sm:inline">Google Sheets</span>
+        </button>
+
         {/* Academic Year Selector */}
         <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
           <Calendar className="w-3.5 h-3.5 text-slate-500" />
@@ -262,6 +277,13 @@ export const Topbar: React.FC<TopbarProps> = ({
           )}
         </div>
       </div>
+
+      {/* Google Sheets Sync Modal */}
+      <GoogleSheetsSyncModal
+        isOpen={showGoogleSync}
+        onClose={() => setShowGoogleSync(false)}
+        onSyncSuccess={onSyncSuccess}
+      />
     </header>
   );
 };

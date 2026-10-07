@@ -14,6 +14,7 @@ import {
   upsertAttendanceMatrixRecord, createAttendanceSessionColumn,
 } from '@/services/dataService';
 import { getAuthSession, setAuthSession, logout as authLogout, AuthSession } from '@/services/authService';
+import { syncAllFromGoogleSheets } from '@/services/googleSheetsService';
 
 // ─── URL Hash Utilities ──────────────────────────────────────────────────────
 
@@ -106,6 +107,40 @@ export const App: React.FC = () => {
     ) {
       setDb(resetDatabase());
     }
+  }, []);
+
+  // ── Automatic Two-Way Synchronization with Google Sheets ────────────────────
+  useEffect(() => {
+    let isCancelled = false;
+
+    const pullLatest = async () => {
+      try {
+        const res = await syncAllFromGoogleSheets();
+        if (!isCancelled && res.success && res.updatedDb) {
+          setDb(res.updatedDb);
+        }
+      } catch {
+        // silent background sync
+      }
+    };
+
+    // 1. Initial pull on startup
+    pullLatest();
+
+    // 2. Auto-sync whenever user returns to dashboard tab
+    const handleFocus = () => {
+      pullLatest();
+    };
+    window.addEventListener('focus', handleFocus);
+
+    // 3. Background periodic sync every 30 seconds
+    const interval = setInterval(pullLatest, 30000);
+
+    return () => {
+      isCancelled = true;
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(interval);
+    };
   }, []);
 
   // Record Drawer State
@@ -416,6 +451,7 @@ export const App: React.FC = () => {
       onCloseUpload={() => setIsUploadOpen(false)}
       uploadDefaultModule={uploadDefaultModule}
       onImportSuccess={handleImportSuccess}
+      onSyncSuccess={(newDb) => setDb(newDb)}
     >
       {renderCurrentPage()}
     </AppLayout>
