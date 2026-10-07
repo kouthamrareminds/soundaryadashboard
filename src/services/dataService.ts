@@ -12,9 +12,9 @@ export { AuthForbiddenError };
 
 // ─── Storage Keys & Schema Version ──────────────────────────────────────────
 
-const SCHEMA_VERSION = 'v2026.10.07_placement_update_v35';
+const SCHEMA_VERSION = 'v2026.10.07_placement_update_v38';
 const VERSION_STORAGE_KEY = 'rareminds_portal_schema_version';
-const STORAGE_KEY = 'rareminds_portal_real_db_v35';
+const STORAGE_KEY = 'rareminds_portal_real_db_v38';
 
 // ─── Stream Normalizer Helper ───────────────────────────────────────────────
 export function normalizeStreamName(stream?: string, programme?: string, spec?: string): string {
@@ -160,21 +160,33 @@ export function loadDatabase(): DatabaseState {
 /** Persist the full database snapshot to localStorage. */
 export function saveDatabase(db: DatabaseState): void {
   try {
+    // Evict any older database version snapshots to stay comfortably below quota
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('rareminds_portal_real_db_') && k !== STORAGE_KEY) {
+        localStorage.removeItem(k);
+      }
+    }
     localStorage.setItem(VERSION_STORAGE_KEY, SCHEMA_VERSION);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
-  } catch {
-    console.warn('[dataService] Could not persist to localStorage — storage may be full.');
+  } catch (err) {
+    console.warn('[dataService] Could not persist to localStorage — storage may be full.', err);
   }
 }
 
 /** Wipe persisted dummy data and restore real populated master database. */
 export function resetDatabase(): DatabaseState {
   try {
-    // Clear all old keys in localStorage
-    const keysToRemove = [];
+    // Clear old database keys, PRESERVING active auth session and user credentials
+    const keysToRemove: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.startsWith('rareminds_')) {
+      if (
+        k &&
+        k.startsWith('rareminds_') &&
+        !k.includes('auth_session') &&
+        !k.includes('users_db')
+      ) {
         keysToRemove.push(k);
       }
     }

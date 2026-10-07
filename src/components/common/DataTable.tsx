@@ -304,7 +304,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                         key={col.key}
                         className={`py-3 px-4 text-xs whitespace-nowrap ${
                           isSticky
-                            ? 'sticky left-0 z-10 bg-white group-hover:bg-blue-50/40 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] border-r border-slate-100'
+                            ? 'sticky left-0 z-10 bg-white group-hover:bg-[#f1f6ff] shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] border-r border-slate-100'
                             : ''
                         }`}
                       >

@@ -13,7 +13,7 @@ import {
   createRecord, updateRecord, deleteRecord, bulkImport,
   upsertAttendanceMatrixRecord, createAttendanceSessionColumn,
 } from '@/services/dataService';
-import { getAuthSession, logout as authLogout, AuthSession } from '@/services/authService';
+import { getAuthSession, setAuthSession, logout as authLogout, AuthSession } from '@/services/authService';
 
 // ─── URL Hash Utilities ──────────────────────────────────────────────────────
 
@@ -221,6 +221,9 @@ export const App: React.FC = () => {
   /** Add a new record to a module */
   const handleAddRecord = (moduleId: string, record: any) => {
     try {
+      if (session && !getAuthSession()) {
+        setAuthSession(session);
+      }
       setDb(prev => createRecord(prev, moduleId, record));
     } catch (err: any) {
       alert(err.message || '403 Forbidden: Insufficient permissions to add record.');
@@ -235,6 +238,9 @@ export const App: React.FC = () => {
     updates: any
   ) => {
     try {
+      if (session && !getAuthSession()) {
+        setAuthSession(session);
+      }
       setDb(prev => updateRecord(prev, moduleId, primaryId, primaryValue, updates));
       // If drawer is showing this record, update it
       if (activeDrawerRecord && activeDrawerRecord[primaryId] === primaryValue) {
@@ -248,6 +254,9 @@ export const App: React.FC = () => {
   /** Delete a record from a module */
   const handleDeleteRecord = (moduleId: string, primaryId: string, primaryValue: string) => {
     try {
+      if (session && !getAuthSession()) {
+        setAuthSession(session);
+      }
       setDb(prev => deleteRecord(prev, moduleId, primaryId, primaryValue));
       // Close drawer if it was showing this record
       if (activeDrawerRecord && activeDrawerRecord[primaryId] === primaryValue) {

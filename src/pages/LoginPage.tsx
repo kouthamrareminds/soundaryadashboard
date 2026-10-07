@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, ShieldCheck, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import raremindsLogo from '@/assets/rareminds-logo.png';
 import { authenticateUser, AuthSession } from '@/services/authService';
 
@@ -181,12 +181,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
               )}
             </button>
           </form>
-        </div>
-
-        {/* Security & RBAC Footer */}
-        <div className="flex items-center justify-center gap-2 text-slate-400 text-xs">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>Role-Based Access Control • Web Crypto SHA-256 Authentication</span>
         </div>
       </div>
     </div>

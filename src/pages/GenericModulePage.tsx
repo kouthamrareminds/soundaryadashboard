@@ -96,6 +96,15 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
   // Add/Edit Record Modal State
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingRecord, setEditingRecord] = useState<any | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Auto-dismiss toast after 3.5s
+  useEffect(() => {
+    if (toastMessage) {
+      const timer = setTimeout(() => setToastMessage(null), 3500);
+      return () => clearTimeout(timer);
+    }
+  }, [toastMessage]);
 
   // File Preview Modal State (for student-files module)
   const [previewFile, setPreviewFile] = useState<any | null>(null);
@@ -119,6 +128,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
       if (onDeleteRecord) {
         onDeleteRecord(moduleConfig.id, moduleConfig.primaryId, primaryValue);
       }
+      setToastMessage(`Record "${primaryValue}" deleted`);
     }
   };
 
@@ -129,11 +139,14 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
       if (onEditRecord) {
         onEditRecord(moduleConfig.id, moduleConfig.primaryId, primaryValue, record);
       }
+      setToastMessage(`✓ Record "${primaryValue}" updated successfully`);
     } else {
       // Add mode
       if (onAddRecord) {
         onAddRecord(moduleConfig.id, record);
       }
+      const primaryValue = record[moduleConfig.primaryId] || 'New record';
+      setToastMessage(`✓ Record "${primaryValue}" created successfully`);
     }
     setIsFormOpen(false);
     setEditingRecord(null);
@@ -512,7 +525,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
           value={allProfiles.length}
           iconName="Compass"
           colorScheme="blue"
-          subtext={quickCategoryFilter ? 'Click to show all 58' : 'Student Readiness & Review Directory'}
+          subtext={quickCategoryFilter ? `Click to show all ${allProfiles.length}` : 'Student Readiness & Review Directory'}
           onClick={() => setQuickCategoryFilter(null)}
           isSelected={quickCategoryFilter === null}
         />
@@ -535,7 +548,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
           value={reviewed}
           iconName="CheckCircle2"
           colorScheme="indigo"
-          subtext="54 Completed • Click to filter evaluated"
+          subtext={`${reviewed} Completed • Click to filter evaluated`}
           onClick={() => setQuickCategoryFilter(prev => prev === 'CAREER_EVALUATED' ? null : 'CAREER_EVALUATED')}
           isSelected={quickCategoryFilter === 'CAREER_EVALUATED'}
         />
@@ -547,7 +560,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
           value={pendingReviewed}
           iconName="Clock"
           colorScheme="amber"
-          change="4 Pending"
+          change={`${pendingReviewed} Pending`}
           isPositive={false}
           subtext="Awaiting Review • Click to filter"
           onClick={() => setQuickCategoryFilter(prev => prev === 'CAREER_PENDING' ? null : 'CAREER_PENDING')}
@@ -791,7 +804,11 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
               </h3>
             </div>
             <span className="text-xs text-slate-500 font-medium">
-              34 Shortlisted Candidates across Tier 1, MNCs & Corporate Partners (57% Selection Rate)
+              {(() => {
+                const shortlistedTotal = data.filter(r => ['Shortlisted', 'Assessment', 'Interview', 'Offered', 'Accepted', 'Joined'].includes(r['Current Stage'])).length;
+                const pct = data.length > 0 ? Math.round((shortlistedTotal / data.length) * 100) : 0;
+                return `${shortlistedTotal} Shortlisted Candidates across Tier 1, MNCs & Corporate Partners (${pct}% Selection Rate)`;
+              })()}
             </span>
           </div>
 
@@ -981,11 +998,11 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
               Active Report Filter:
             </span>
             <span className="bg-white px-2.5 py-1 rounded-lg font-bold text-blue-700 border border-blue-200 shadow-2xs">
-              {quickCategoryFilter === 'SHORTLISTED' && 'Shortlisted Candidates (34 Records)'}
-              {quickCategoryFilter === 'AWAITING_FEEDBACK' && 'Awaiting Corporate Feedback (14 Records)'}
-              {quickCategoryFilter === 'NOT_MAPPED' && 'Not Mapped / Screening Feedback Awaited (12 Records)'}
-              {quickCategoryFilter === 'CAREER_PENDING' && 'Pending Career Evaluation (4 Students)'}
-              {quickCategoryFilter === 'CAREER_EVALUATED' && 'Evaluated & Role Mapped Candidates (54 Students)'}
+              {quickCategoryFilter === 'SHORTLISTED' && `Shortlisted Candidates (${filteredData.length} Records)`}
+              {quickCategoryFilter === 'AWAITING_FEEDBACK' && `Awaiting Corporate Feedback (${filteredData.length} Records)`}
+              {quickCategoryFilter === 'NOT_MAPPED' && `Not Mapped / Screening Feedback Awaited (${filteredData.length} Records)`}
+              {quickCategoryFilter === 'CAREER_PENDING' && `Pending Career Evaluation (${filteredData.length} Students)`}
+              {quickCategoryFilter === 'CAREER_EVALUATED' && `Evaluated & Role Mapped Candidates (${filteredData.length} Students)`}
               {quickCategoryFilter === 'TRACK:ANALYTICS' && 'Business & Data Analytics Track Candidates'}
               {quickCategoryFilter === 'TRACK:BFSI' && 'Banking, BFSI & AML Track Candidates'}
               {quickCategoryFilter === 'TRACK:HR' && 'HRBP & People Advisory Track Candidates'}
@@ -1355,6 +1372,14 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-slate-700/80 text-xs font-semibold animate-in fade-in slide-in-from-bottom-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+          <span>{toastMessage}</span>
         </div>
       )}
     </div>

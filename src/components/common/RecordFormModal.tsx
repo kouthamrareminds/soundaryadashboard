@@ -28,6 +28,38 @@ function buildEmptyRecord(columns: ColumnConfig[]): Record<string, any> {
   return rec;
 }
 
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function toIsoDate(val: any): string {
+  if (!val) return '';
+  const s = String(val).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  const match = s.match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})$/);
+  if (match) {
+    const day = match[1].padStart(2, '0');
+    const monthIdx = MONTH_NAMES.findIndex(m => m.toLowerCase() === match[2].toLowerCase());
+    if (monthIdx >= 0) {
+      const month = String(monthIdx + 1).padStart(2, '0');
+      const year = match[3];
+      return `${year}-${month}-${day}`;
+    }
+  }
+  return '';
+}
+
+function fromIsoDate(iso: string): string {
+  if (!iso) return '';
+  const match = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (match) {
+    const year = match[1];
+    const monthNum = parseInt(match[2], 10);
+    const day = match[3];
+    const monthName = MONTH_NAMES[monthNum - 1] || 'Jan';
+    return `${day}-${monthName}-${year}`;
+  }
+  return iso;
+}
+
 function renderInput(col: ColumnConfig, value: any, onChange: (val: any) => void) {
   const baseClass =
     'w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all';
@@ -47,8 +79,11 @@ function renderInput(col: ColumnConfig, value: any, onChange: (val: any) => void
     return (
       <input
         type="date"
-        value={value ?? ''}
-        onChange={e => onChange(e.target.value)}
+        value={toIsoDate(value)}
+        onChange={e => {
+          const iso = e.target.value;
+          onChange(iso ? fromIsoDate(iso) : null);
+        }}
         className={baseClass}
       />
     );
