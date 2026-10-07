@@ -29,7 +29,7 @@ export const ColumnSelector: React.FC<ColumnSelectorProps> = ({
   }, []);
 
   const toggleColumn = (key: string) => {
-    if (key === primaryKey) return; // Primary ID cannot be hidden
+    if (key === primaryKey || key === 'Student ID') return; // Primary ID and Student ID cannot be hidden
     if (visibleColumns.includes(key)) {
       onChange(visibleColumns.filter(c => c !== key));
     } else {
@@ -42,8 +42,8 @@ export const ColumnSelector: React.FC<ColumnSelectorProps> = ({
   };
 
   const resetDefault = () => {
-    // Default: first 8 columns or all if less than 8
-    onChange(columns.slice(0, 8).map(c => c.key));
+    // Default: first 9 columns or all if less than 9
+    onChange(columns.slice(0, Math.min(columns.length, 9)).map(c => c.key));
   };
 
   return (
@@ -81,20 +81,20 @@ export const ColumnSelector: React.FC<ColumnSelectorProps> = ({
           <div className="max-h-72 overflow-y-auto px-2 py-1 space-y-0.5">
             {columns.map(col => {
               const isSelected = visibleColumns.includes(col.key);
-              const isPrimary = col.key === primaryKey;
+              const isLocked = col.key === primaryKey || col.key === 'Student ID';
 
               return (
                 <button
                   key={col.key}
-                  disabled={isPrimary}
+                  disabled={isLocked}
                   onClick={() => toggleColumn(col.key)}
                   className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors ${
-                    isPrimary ? 'opacity-60 cursor-not-allowed bg-slate-50' : 'hover:bg-slate-100'
+                    isLocked ? 'opacity-60 cursor-not-allowed bg-slate-50' : 'hover:bg-slate-100'
                   }`}
                 >
                   <span className="truncate text-left text-slate-700 font-medium">
                     {col.label}
-                    {isPrimary && <span className="ml-1 text-[10px] text-blue-600">(Locked)</span>}
+                    {isLocked && <span className="ml-1 text-[10px] text-blue-600">(Locked)</span>}
                   </span>
                   <div
                     className={`w-4 h-4 rounded flex items-center justify-center border ${

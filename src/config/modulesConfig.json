@@ -185,7 +185,7 @@
     "id": "assessment-attempts",
     "sheetName": "02_Assessment_Attempts",
     "number": "02",
-    "title": "Assessment Attempts",
+    "title": "Assessment Taken",
     "description": "Diagnostic, Baseline & Summative Assessment Records",
     "icon": "FileSpreadsheet",
     "primaryId": "Attempt ID",
@@ -437,16 +437,6 @@
     "columnCount": 18,
     "columns": [
       {
-        "key": "Profile ID",
-        "label": "Profile ID",
-        "type": "string",
-        "isPrimary": true,
-        "isForeignKey": false,
-        "targetModule": null,
-        "options": null,
-        "filterable": true
-      },
-      {
         "key": "Student ID",
         "label": "Student ID",
         "type": "string",
@@ -457,34 +447,29 @@
         "filterable": false
       },
       {
-        "key": "Review Date",
-        "label": "Review Date",
-        "type": "date",
+        "key": "Readiness Category",
+        "label": "Readiness Category",
+        "type": "enum",
         "isPrimary": false,
         "isForeignKey": false,
         "targetModule": null,
-        "options": null,
-        "filterable": false
+        "options": [
+          "Ready",
+          "Conditional",
+          "Needs Support",
+          "Not Assessed"
+        ],
+        "filterable": true
       },
       {
-        "key": "Reviewer",
-        "label": "Reviewer",
+        "key": "Recommended Role",
+        "label": "Recommended Role",
         "type": "string",
         "isPrimary": false,
         "isForeignKey": false,
         "targetModule": null,
         "options": null,
-        "filterable": false
-      },
-      {
-        "key": "Assessment Attempt IDs Used",
-        "label": "Assessment Attempt IDs Used",
-        "type": "string",
-        "isPrimary": false,
-        "isForeignKey": false,
-        "targetModule": null,
-        "options": null,
-        "filterable": false
+        "filterable": true
       },
       {
         "key": "Demonstrated Strengths",
@@ -507,18 +492,48 @@
         "filterable": false
       },
       {
-        "key": "Preferred Role",
-        "label": "Preferred Role",
+        "key": "Rationale",
+        "label": "Rationale",
         "type": "string",
         "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Next Action",
+        "label": "Next Action",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Profile ID",
+        "label": "Profile ID",
+        "type": "string",
+        "isPrimary": true,
         "isForeignKey": false,
         "targetModule": null,
         "options": null,
         "filterable": true
       },
       {
-        "key": "Recommended Role",
-        "label": "Recommended Role",
+        "key": "Review Date",
+        "label": "Review Date",
+        "type": "date",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Preferred Role",
+        "label": "Preferred Role",
         "type": "string",
         "isPrimary": false,
         "isForeignKey": false,
@@ -567,41 +582,6 @@
         "filterable": false
       },
       {
-        "key": "Readiness Category",
-        "label": "Readiness Category",
-        "type": "enum",
-        "isPrimary": false,
-        "isForeignKey": false,
-        "targetModule": null,
-        "options": [
-          "Ready",
-          "Conditional",
-          "Needs Support",
-          "Not Assessed"
-        ],
-        "filterable": true
-      },
-      {
-        "key": "Rationale",
-        "label": "Rationale",
-        "type": "string",
-        "isPrimary": false,
-        "isForeignKey": false,
-        "targetModule": null,
-        "options": null,
-        "filterable": false
-      },
-      {
-        "key": "Next Action",
-        "label": "Next Action",
-        "type": "string",
-        "isPrimary": false,
-        "isForeignKey": false,
-        "targetModule": null,
-        "options": null,
-        "filterable": false
-      },
-      {
         "key": "Next Review Date",
         "label": "Next Review Date",
         "type": "date",
@@ -623,6 +603,26 @@
           "No"
         ],
         "filterable": true
+      },
+      {
+        "key": "Reviewer",
+        "label": "Reviewer",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
+      },
+      {
+        "key": "Assessment Attempt IDs Used",
+        "label": "Assessment Attempt IDs Used",
+        "type": "string",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": null,
+        "filterable": false
       }
     ]
   },
@@ -850,9 +850,9 @@
         "filterable": true
       },
       {
-        "key": "Module",
-        "label": "Module",
-        "type": "string",
+        "key": "Planned Date",
+        "label": "Planned Date",
+        "type": "date",
         "isPrimary": false,
         "isForeignKey": false,
         "targetModule": null,
@@ -894,9 +894,9 @@
         "filterable": true
       },
       {
-        "key": "Planned Date",
-        "label": "Planned Date",
-        "type": "date",
+        "key": "Planned Start",
+        "label": "Planned Start",
+        "type": "time",
         "isPrimary": false,
         "isForeignKey": false,
         "targetModule": null,
@@ -904,9 +904,9 @@
         "filterable": false
       },
       {
-        "key": "Planned Start",
-        "label": "Planned Start",
-        "type": "time",
+        "key": "Module",
+        "label": "Module",
+        "type": "string",
         "isPrimary": false,
         "isForeignKey": false,
         "targetModule": null,
@@ -1560,7 +1560,7 @@
     "id": "companies",
     "sheetName": "10_Companies",
     "number": "10",
-    "title": "Companies",
+    "title": "Market Opportunity",
     "description": "Recruiter Directory, Account Owners & Relationships",
     "icon": "Building2",
     "primaryId": "Company ID",
@@ -1686,7 +1686,7 @@
     "id": "opportunities",
     "sheetName": "11_Opportunities",
     "number": "11",
-    "title": "Opportunities",
+    "title": "Rareminds Opportunity",
     "description": "Campus Drives, Job Roles, CTC & Eligibility Criteria",
     "icon": "Briefcase",
     "primaryId": "Opportunity ID",
@@ -1946,7 +1946,7 @@
     "id": "applications",
     "sheetName": "12_Applications",
     "number": "12",
-    "title": "Applications",
+    "title": "SIMS Application",
     "description": "Student Placement Applications & Pipeline Stages",
     "icon": "Send",
     "primaryId": "Application ID",
@@ -1981,6 +1981,28 @@
         "targetModule": "opportunities",
         "options": null,
         "filterable": false
+      },
+      {
+        "key": "Current Stage",
+        "label": "Current Stage",
+        "type": "enum",
+        "isPrimary": false,
+        "isForeignKey": false,
+        "targetModule": null,
+        "options": [
+          "Applied",
+          "Screening",
+          "Shortlisted",
+          "Assessment",
+          "Interview",
+          "Offered",
+          "Accepted",
+          "Joined",
+          "Rejected",
+          "Withdrawn",
+          "On Hold"
+        ],
+        "filterable": true
       },
       {
         "key": "Eligibility Checked",
@@ -2039,28 +2061,6 @@
         "targetModule": "student-files",
         "options": null,
         "filterable": false
-      },
-      {
-        "key": "Current Stage",
-        "label": "Current Stage",
-        "type": "enum",
-        "isPrimary": false,
-        "isForeignKey": false,
-        "targetModule": null,
-        "options": [
-          "Applied",
-          "Screening",
-          "Shortlisted",
-          "Assessment",
-          "Interview",
-          "Offered",
-          "Accepted",
-          "Joined",
-          "Rejected",
-          "Withdrawn",
-          "On Hold"
-        ],
-        "filterable": true
       },
       {
         "key": "Stage Updated On",

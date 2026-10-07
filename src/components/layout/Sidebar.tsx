@@ -11,7 +11,6 @@ import {
   Calendar,
   UserCheck,
   ClipboardCheck,
-  UploadCloud,
   Building2,
   Briefcase,
   Send,
@@ -52,15 +51,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, isSpecial: true },
     { id: 'students', label: 'Students', icon: GraduationCap, count: counts['students'] },
-    { id: 'assessment-attempts', label: 'Assessment Attempts', icon: FileSpreadsheet, count: counts['assessment-attempts'] },
+    { id: 'assessment-attempts', label: 'Assessment Taken', icon: FileSpreadsheet, count: counts['assessment-attempts'] },
     { id: 'career-profiles', label: 'Career Profiles', icon: Compass, count: counts['career-profiles'] },
     { id: 'student-files', label: 'Student Files', icon: FolderArchive, count: counts['student-files'] },
     { id: 'sessions', label: 'Training Calendar', icon: Calendar, count: counts['sessions'] },
     { id: 'attendance', label: 'Attendance', icon: UserCheck, count: counts['attendance'] },
-    { id: 'student-submissions', label: 'Student Submissions', icon: UploadCloud, count: counts['student-submissions'] },
-    { id: 'companies', label: 'Companies', icon: Building2, count: counts['companies'] },
-    { id: 'opportunities', label: 'Opportunities', icon: Briefcase, count: counts['opportunities'] },
-    { id: 'applications', label: 'Applications', icon: Send, count: counts['applications'] },
+    { id: 'companies', label: 'Market Opportunity', icon: Building2, count: counts['companies'] },
+    { id: 'opportunities', label: 'Rareminds Opportunity', icon: Briefcase, count: counts['opportunities'] },
+    { id: 'applications', label: 'SIMS Application', icon: Send, count: counts['applications'] },
   ];
 
   return (
@@ -78,7 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="bg-white rounded-lg px-2.5 py-1 flex items-center justify-center shadow-xs">
               <img
                 src={raremindsLogo}
-                alt="RareMinds - Applied Learning. Transforming Work"
+                alt="Rareminds - Applied Learning. Transforming Work"
                 className="h-7 w-auto object-contain max-w-[165px]"
               />
             </div>
@@ -87,7 +85,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="w-10 h-10 mx-auto rounded-lg bg-white p-1 flex items-center justify-center shadow-md">
             <img
               src={raremindsBulbLogo}
-              alt="RareMinds"
+              alt="Rareminds"
               className="w-full h-full object-contain"
             />
           </div>

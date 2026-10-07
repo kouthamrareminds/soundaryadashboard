@@ -23,7 +23,7 @@ export const AccessDeniedPage: React.FC<AccessDeniedPageProps> = ({ onGoBack, us
             Restricted Dashboard Area
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Your current account ({userRole === 'COLLEGE_VIEWER' ? 'College Viewer' : userRole || 'Viewer'}) has strictly <span className="font-semibold text-slate-800">View-Only</span> permissions. Administrative configurations and modification tools are reserved for RareMinds Administrators.
+            Your current account ({userRole === 'COLLEGE_VIEWER' ? 'College Viewer' : userRole || 'Viewer'}) has strictly <span className="font-semibold text-slate-800">View-Only</span> permissions. Administrative configurations and modification tools are reserved for Rareminds Administrators.
           </p>
         </div>
 

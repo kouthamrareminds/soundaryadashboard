@@ -12,9 +12,9 @@ export { AuthForbiddenError };
 
 // ─── Storage Keys & Schema Version ──────────────────────────────────────────
 
-const SCHEMA_VERSION = 'v2026.10.07_placement_update_v38';
+const SCHEMA_VERSION = 'v2026.10.07_placement_update_v39';
 const VERSION_STORAGE_KEY = 'rareminds_portal_schema_version';
-const STORAGE_KEY = 'rareminds_portal_real_db_v38';
+const STORAGE_KEY = 'rareminds_portal_real_db_v39';
 
 // ─── Stream Normalizer Helper ───────────────────────────────────────────────
 export function normalizeStreamName(stream?: string, programme?: string, spec?: string): string {
@@ -112,11 +112,22 @@ function sanitizeDatabase(database: DatabaseState): DatabaseState {
     }));
   }
   if (Array.isArray(database.applications)) {
-    database.applications = database.applications.map(a => ({
-      ...a,
-      'Company Name': a['Company Name'] === 'Radall' ? 'Radiall' : a['Company Name'],
-      'Opportunity ID': a['Opportunity ID'] === 'EXP-MBA-RADALL' ? 'EXP-MBA-RADIALL' : a['Opportunity ID'],
-    }));
+    database.applications = database.applications.map(a => {
+      let updated = {
+        ...a,
+        'Company Name': a['Company Name'] === 'Radall' ? 'Radiall' : a['Company Name'],
+        'Opportunity ID': a['Opportunity ID'] === 'EXP-MBA-RADALL' ? 'EXP-MBA-RADIALL' : a['Opportunity ID'],
+      };
+      if (updated['Student ID'] === 'P03KU24M015027' && updated['Company Name'] === 'Diageo') {
+        updated['Opportunity ID'] = 'EXP-HR-RM';
+        updated['Company Name'] = 'Rareminds';
+        updated['Specialization'] = 'HR';
+        updated['Offered CTC'] = 400000;
+        updated['Offered Fixed Pay'] = 360000;
+        updated['Offered Variable Pay'] = 40000;
+      }
+      return updated;
+    });
   }
   return database;
 }

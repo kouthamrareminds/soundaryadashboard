@@ -239,7 +239,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                   <div className="mt-2 flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full text-blue-700 bg-blue-100/80">
                       <Shield className="w-3 h-3" />
-                      RareMinds Administrator
+                      Rareminds Administrator
                     </span>
                   </div>
                 )}

@@ -46618,6 +46618,32 @@
       "Company Name": "Rareminds"
     },
     {
+      "Opportunity ID": "EXP-HR-RM",
+      "Company ID": "COMP-004",
+      "Role Title": "HR Executive",
+      "Opportunity Type": "Job",
+      "Eligible Programme": "MBA",
+      "Eligible Streams": "HR, Business Analyst",
+      "Required Skills": "Recruitment, Talent Management, Employee Engagement, HR Operations, Excel",
+      "Eligibility Criteria": "MBA 2024-26 batch.",
+      "Location": "Bengaluru",
+      "Work Mode": "Onsite",
+      "Fixed Pay": 360000,
+      "Variable Pay": 40000,
+      "Total CTC": 400000,
+      "Salary Period/Currency": "INR (₹4,00,000 / annum CTC)",
+      "Openings Count": 4,
+      "JD URL": null,
+      "Application URL": null,
+      "Open Date": "21-Sep-2026",
+      "Deadline": "31-Oct-2026",
+      "Opportunity Status": "Open",
+      "Placement Owner": "Rareminds Placement Cell",
+      "Last Verified On": "06-Oct-2026",
+      "JD Description": "Job Description – HR Executive\nCompany: Rareminds | Team: HR & Talent Solutions | Location: Bengaluru (Onsite)\nEmployment Type: Full-time | Experience: Fresher / 0–2 years\nCompensation: ₹4,00,000 CTC (Fixed: ₹3,60,000, Variable: ₹40,000)\n\nRole Overview:\nManage recruitment, talent onboarding, employee engagement, and campus hiring coordination at Rareminds.",
+      "Company Name": "Rareminds"
+    },
+    {
       "Opportunity ID": "EXP-033",
       "Company ID": "COMP-037",
       "Role Title": "Apprentice, Data Management",
@@ -69909,7 +69935,7 @@
     {
       "Application ID": "APP-0044",
       "Student ID": "P03KU24M015027",
-      "Opportunity ID": "EXP-MBA-DIAGEO",
+      "Opportunity ID": "EXP-HR-RM",
       "Eligibility Checked": "Yes",
       "Student Interest Confirmed": "Yes",
       "Applied On": "21-Sep-2026",
@@ -69930,8 +69956,8 @@
       "Expected Joining Date": null,
       "Actual Joining Date": null,
       "Student Name": "Hariprasad nayak",
-      "Company Name": "Diageo",
-      "Specialization": "Business Analytics"
+      "Company Name": "Rareminds",
+      "Specialization": "HR"
     },
     {
       "Application ID": "APP-0045",

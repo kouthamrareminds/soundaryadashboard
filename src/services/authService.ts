@@ -86,9 +86,9 @@ const INITIAL_USERS: UserRecord[] = [
   {
     id: 'USR-RM-001',
     email: 'admin@rareminds.in',
-    name: 'RareMinds System Admin',
+    name: 'Rareminds System Admin',
     role: 'RAREMINDS_ADMIN',
-    organization: 'RareMinds Career Solutions',
+    organization: 'Rareminds Career Solutions',
     salt: '9c693e83963e35cf8a35ad3b038138e0',
     password_hash: '4c75ce38f459435024b773f1e5128e67f48952cf1d82a5bf0764e121a283f7a1',
     created_at: '2026-10-06T00:00:00.000Z',
@@ -146,6 +146,21 @@ export function getAuthSession(): AuthSession | null {
     if (!session || !session.expiresAt || session.expiresAt < Date.now()) {
       clearAuthSession();
       return null;
+    }
+    // Normalize casing for display consistency
+    if (session.user) {
+      let changed = false;
+      if (session.user.name && session.user.name.includes('RareMinds')) {
+        session.user.name = session.user.name.replace(/RareMinds/g, 'Rareminds');
+        changed = true;
+      }
+      if (session.user.organization && session.user.organization.includes('RareMinds')) {
+        session.user.organization = session.user.organization.replace(/RareMinds/g, 'Rareminds');
+        changed = true;
+      }
+      if (changed) {
+        localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+      }
     }
     return session;
   } catch {

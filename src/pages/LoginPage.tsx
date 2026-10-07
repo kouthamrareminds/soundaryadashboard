@@ -62,7 +62,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         <div className="inline-block">
           <img
             src={raremindsLogo}
-            alt="RareMinds"
+            alt="Rareminds"
             className="h-10 sm:h-12 w-auto object-contain"
           />
         </div>

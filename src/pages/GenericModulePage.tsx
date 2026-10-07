@@ -229,15 +229,19 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
             return false;
           }
         } else if (quickCategoryFilter === 'TRACK:ANALYTICS') {
-          if (!/analyst|analytics|decision/i.test(String(record['Recommended Role'] || ''))) {
+          if (!/\b(business\s*analyst|data\s*analyst|bi\s*analyst|analytics|decision|data\s*scientist)\b/i.test(String(record['Recommended Role'] || ''))) {
             return false;
           }
         } else if (quickCategoryFilter === 'TRACK:BFSI') {
-          if (!/banking|credit|aml|portfolio|broking|finance/i.test(String(record['Recommended Role'] || ''))) {
+          if (!/banking|credit|aml|kyc|regulatory|portfolio|broking|finance/i.test(String(record['Recommended Role'] || ''))) {
+            return false;
+          }
+        } else if (quickCategoryFilter === 'TRACK:MARKETING') {
+          if (!/market|brand|consumer|promotion|commerce|growth|creator|creative|design|ad\s*ops/i.test(String(record['Recommended Role'] || ''))) {
             return false;
           }
         } else if (quickCategoryFilter === 'TRACK:HR') {
-          if (!/hr|people|talent|advisory|counselor/i.test(String(record['Recommended Role'] || ''))) {
+          if (!/hr|people|talent|advisory|counselor|guidance/i.test(String(record['Recommended Role'] || ''))) {
             return false;
           }
         } else if (quickCategoryFilter === 'TRACK:TECH') {
@@ -864,13 +868,13 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
             {[
               {
                 id: 'TRACK:ANALYTICS',
                 title: 'Business & Data Analytics',
                 subtitle: 'Decision Support, BI & Data Interpretation',
-                regex: /analyst|analytics|decision/i,
+                regex: /\b(business\s*analyst|data\s*analyst|bi\s*analyst|analytics|decision|data\s*scientist)\b/i,
                 bg: 'bg-blue-50/70',
                 border: 'border-blue-100',
                 text: 'text-blue-900',
@@ -883,7 +887,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
                 id: 'TRACK:BFSI',
                 title: 'Banking, BFSI & AML',
                 subtitle: 'Credit Management, AML & Financial Advisory',
-                regex: /banking|credit|aml|portfolio|broking|finance/i,
+                regex: /banking|credit|aml|kyc|regulatory|portfolio|broking|finance/i,
                 bg: 'bg-emerald-50/70',
                 border: 'border-emerald-100',
                 text: 'text-emerald-900',
@@ -893,10 +897,23 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
                 dot: 'bg-emerald-600',
               },
               {
+                id: 'TRACK:MARKETING',
+                title: 'Marketing & Brand Growth',
+                subtitle: 'Consumer Insights, Digital Brand & Growth',
+                regex: /market|brand|consumer|promotion|commerce|growth|creator|creative|design|ad\s*ops/i,
+                bg: 'bg-rose-50/70',
+                border: 'border-rose-100',
+                text: 'text-rose-900',
+                num: 'text-rose-700',
+                sub: 'text-rose-600/90',
+                ring: 'ring-rose-600',
+                dot: 'bg-rose-600',
+              },
+              {
                 id: 'TRACK:HR',
                 title: 'HRBP & People Advisory',
-                subtitle: 'Talent Strategy, HR Operations & People Consulting',
-                regex: /hr|people|talent|advisory|counselor/i,
+                subtitle: 'Talent Strategy, HR Operations & Advisory',
+                regex: /hr|people|talent|advisory|counselor|guidance/i,
                 bg: 'bg-indigo-50/70',
                 border: 'border-indigo-100',
                 text: 'text-indigo-900',
@@ -1005,6 +1022,7 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
               {quickCategoryFilter === 'CAREER_EVALUATED' && `Evaluated & Role Mapped Candidates (${filteredData.length} Students)`}
               {quickCategoryFilter === 'TRACK:ANALYTICS' && 'Business & Data Analytics Track Candidates'}
               {quickCategoryFilter === 'TRACK:BFSI' && 'Banking, BFSI & AML Track Candidates'}
+              {quickCategoryFilter === 'TRACK:MARKETING' && 'Marketing & Brand Growth Track Candidates'}
               {quickCategoryFilter === 'TRACK:HR' && 'HRBP & People Advisory Track Candidates'}
               {quickCategoryFilter === 'TRACK:TECH' && 'Cloud, AI & Tech Governance Track Candidates'}
               {quickCategoryFilter.startsWith('COMPANY:') && `${quickCategoryFilter.replace('COMPANY:', '')} Shortlisted Candidates (${filteredData.length} Records)`}
@@ -1273,10 +1291,10 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-slate-900 line-clamp-1">{ses['Session Topic']}</h4>
-                  <p className="text-xs text-slate-500 mt-1">Module: {ses['Module']}</p>
+                  <p className="text-xs text-slate-500 mt-1">Planned Date: {ses['Planned Date'] || 'TBD'}</p>
                 </div>
                 <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
-                  <span>Planned: {ses['Planned Date']}</span>
+                  <span>{ses['Delivery Mode'] || ses['Trainer'] || 'Scheduled'}</span>
                   <span className="font-mono font-semibold">{ses['Planned Learning Hours']} hrs</span>
                 </div>
               </div>
