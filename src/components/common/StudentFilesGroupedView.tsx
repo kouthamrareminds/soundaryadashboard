@@ -68,7 +68,7 @@ export const StudentFilesGroupedView: React.FC<StudentFilesGroupedViewProps> = (
   const studentFilesMap = useMemo(() => {
     const map: Record<string, any[]> = {};
     files.forEach(f => {
-      const sId = f['Student ID'];
+      const sId = (f['Student ID'] || '').trim().toUpperCase();
       if (!sId) return;
       if (!map[sId]) map[sId] = [];
       map[sId].push(f);
@@ -97,7 +97,7 @@ export const StudentFilesGroupedView: React.FC<StudentFilesGroupedViewProps> = (
   // Enrich students with files and metadata
   const enrichedStudents = useMemo(() => {
     return allStudents.map(student => {
-      const sId = student['Student ID'];
+      const sId = (student['Student ID'] || '').trim().toUpperCase();
       const studentFiles = studentFilesMap[sId] || [];
       const stream = normalizeStreamName(
         student['Assigned Training Stream'],

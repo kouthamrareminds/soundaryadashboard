@@ -6,13 +6,13 @@
  * - Write mode: Google Apps Script Web App (pushAll, createRecord, updateRecord, deleteRecord)
  */
 
-import { DatabaseState } from '@/data/mockData';
+import { DatabaseState, initialDatabase } from '@/data/mockData';
 import { loadDatabase, saveDatabase } from '@/services/dataService';
 
 export const DEFAULT_SPREADSHEET_ID = '1YvkSqmwgsboaKBmesFWmAArzWdgYgpf04DoyJOyBth8';
 export const SPREADSHEET_URL = `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/edit?usp=sharing`;
 export const WEBAPP_STORAGE_KEY = 'rareminds_google_webapp_url';
-export const DEFAULT_WEBAPP_URL = 'https://script.google.com/a/macros/rareminds.in/s/AKfycbzMEowEbIkiOKdqWGEMLdQqAVeRXwDK69zdfwmbqEaVgsl1j-1_Wsp7mQZbYe_S9Ko8/exec';
+export const DEFAULT_WEBAPP_URL = 'https://script.google.com/a/macros/rareminds.in/s/AKfycbzXQyoMC1eGKNj_31WGVulHBnJM5P5-SdwoB6jNPjZBVXV7EkCE8I6ESLvPRwA28EpI/exec';
 
 export interface SheetMapping {
   sheetName: string;
@@ -37,7 +37,12 @@ export const SHEET_MAPPINGS: SheetMapping[] = [
 
 export function getWebAppUrl(): string {
   try {
-    return localStorage.getItem(WEBAPP_STORAGE_KEY) || DEFAULT_WEBAPP_URL;
+    const stored = localStorage.getItem(WEBAPP_STORAGE_KEY);
+    if (!stored || stored.includes('AKfycbzMEow') || stored.includes('AKfycbxdJFDx')) {
+      localStorage.setItem(WEBAPP_STORAGE_KEY, DEFAULT_WEBAPP_URL);
+      return DEFAULT_WEBAPP_URL;
+    }
+    return stored || DEFAULT_WEBAPP_URL;
   } catch {
     return DEFAULT_WEBAPP_URL;
   }
@@ -61,7 +66,7 @@ export async function fetchSheetRows(
   spreadsheetId = DEFAULT_SPREADSHEET_ID
 ): Promise<Record<string, any>[] | null> {
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+    const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&headers=1&sheet=${encodeURIComponent(sheetName)}`;
     const res = await fetch(url);
     if (!res.ok) return null;
 
@@ -145,7 +150,21 @@ export async function syncAllFromGoogleSheets(
           SHEET_MAPPINGS.forEach(({ sheetName, dbKey }) => {
             const rows = payload.data[sheetName];
             if (Array.isArray(rows) && rows.length > 0) {
-              (newDb as any)[dbKey] = rows;
+              if (dbKey === 'studentFiles') {
+                const fileMap = new Map<string, any>();
+                (initialDatabase.studentFiles || []).forEach((f: any) => {
+                  if (f['File ID']) fileMap.set(f['File ID'], f);
+                });
+                (currentDb.studentFiles || []).forEach((f: any) => {
+                  if (f['File ID']) fileMap.set(f['File ID'], f);
+                });
+                rows.forEach((r: any) => {
+                  if (r['File ID']) fileMap.set(r['File ID'], r);
+                });
+                (newDb as any)[dbKey] = Array.from(fileMap.values());
+              } else {
+                (newDb as any)[dbKey] = rows;
+              }
               totalSyncedRows += rows.length;
               results.push({ sheetName, dbKey: String(dbKey), count: rows.length, status: 'synced' });
             } else {
@@ -181,7 +200,21 @@ export async function syncAllFromGoogleSheets(
   for (const { sheetName, dbKey } of SHEET_MAPPINGS) {
     const rows = await fetchSheetRows(sheetName, spreadsheetId);
     if (rows && rows.length > 0) {
-      (newDb as any)[dbKey] = rows;
+      if (dbKey === 'studentFiles') {
+        const fileMap = new Map<string, any>();
+        (initialDatabase.studentFiles || []).forEach((f: any) => {
+          if (f['File ID']) fileMap.set(f['File ID'], f);
+        });
+        (currentDb.studentFiles || []).forEach((f: any) => {
+          if (f['File ID']) fileMap.set(f['File ID'], f);
+        });
+        rows.forEach((r: any) => {
+          if (r['File ID']) fileMap.set(r['File ID'], r);
+        });
+        (newDb as any)[dbKey] = Array.from(fileMap.values());
+      } else {
+        (newDb as any)[dbKey] = rows;
+      }
       totalSyncedRows += rows.length;
       anySheetSynced = true;
       results.push({ sheetName, dbKey: String(dbKey), count: rows.length, status: 'synced' });
@@ -221,12 +254,13 @@ async function sendPostToWebApp(payload: any): Promise<boolean> {
   const url = getWebAppUrl();
   if (!url) return false;
   try {
-    const res = await fetch(url, {
+    await fetch(url, {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
     });
-    return res.ok;
+    return true;
   } catch (err) {
     console.warn('[GoogleSheets] Write sync error:', err);
     return false;

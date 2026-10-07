@@ -103,6 +103,9 @@ function sanitizeDatabase(database: DatabaseState): DatabaseState {
     }));
   }
   if (Array.isArray(database.companies)) {
+    if (database.companies.length > 0 && (!database.companies[0]['Company ID'] || !database.companies[0]['Company Name'])) {
+      database.companies = [...initialDatabase.companies];
+    }
     database.companies = database.companies.map(c => ({
       ...c,
       Website: null,
@@ -156,7 +159,11 @@ export function loadDatabase(): DatabaseState {
       const parsed = JSON.parse(raw) as DatabaseState;
       // If parsed contains old dummy SOU-2026 IDs or less than 80 students, discard and reload real data
       const firstId = parsed.students?.[0]?.['Student ID'] || '';
-      if (firstId.startsWith('SOU-') || (parsed.students?.length !== initialDatabase.students.length)) {
+      if (
+        firstId.startsWith('SOU-') ||
+        (parsed.students?.length !== initialDatabase.students.length) ||
+        (parsed.studentFiles && parsed.studentFiles.length < initialDatabase.studentFiles.length)
+      ) {
         return resetDatabase();
       }
 

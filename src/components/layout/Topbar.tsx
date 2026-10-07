@@ -190,15 +190,17 @@ export const Topbar: React.FC<TopbarProps> = ({
 
       {/* Right Controls: Cohort Selector, Notifications, User Profile */}
       <div className="flex items-center gap-3">
-        {/* Google Sheets Live Sync Trigger */}
-        <button
-          onClick={() => setShowGoogleSync(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/90 rounded-xl text-xs font-semibold transition-colors shadow-2xs"
-          title="Google Sheets Live Sync"
-        >
-          <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
-          <span className="hidden sm:inline">Google Sheets</span>
-        </button>
+        {/* Google Sheets Live Sync Trigger (Admins only, hidden for COLLEGE_VIEWER) */}
+        {currentUser?.role !== 'COLLEGE_VIEWER' && (
+          <button
+            onClick={() => setShowGoogleSync(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/90 rounded-xl text-xs font-semibold transition-colors shadow-2xs"
+            title="Google Sheets Live Sync"
+          >
+            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+            <span className="hidden sm:inline">Google Sheets</span>
+          </button>
+        )}
 
         {/* Academic Year Selector */}
         <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
@@ -278,12 +280,14 @@ export const Topbar: React.FC<TopbarProps> = ({
         </div>
       </div>
 
-      {/* Google Sheets Sync Modal */}
-      <GoogleSheetsSyncModal
-        isOpen={showGoogleSync}
-        onClose={() => setShowGoogleSync(false)}
-        onSyncSuccess={onSyncSuccess}
-      />
+      {/* Google Sheets Sync Modal (Admins only) */}
+      {currentUser?.role !== 'COLLEGE_VIEWER' && (
+        <GoogleSheetsSyncModal
+          isOpen={showGoogleSync}
+          onClose={() => setShowGoogleSync(false)}
+          onSyncSuccess={onSyncSuccess}
+        />
+      )}
     </header>
   );
 };
