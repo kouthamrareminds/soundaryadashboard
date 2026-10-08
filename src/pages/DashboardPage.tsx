@@ -188,7 +188,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
       // Assessments
       const completedAssessments = db.assessmentAttempts.filter(
-        a => studentIds.has(a['Student ID']) && a['Student ID'] !== 'P03KU24M015012' && a['Completion Status'] === 'Completed'
+        a => studentIds.has(a['Student ID']) && a['Completion Status'] === 'Completed'
       ).length;
 
       // Placement Offers
@@ -209,13 +209,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
   const studentIds = new Set(filteredStudents.map(s => s['Student ID']));
 
-  // Assessment completion by student (Harsha P03KU24M015012 has not taken assessment)
+  // Assessment completion by student
   const completedStudentIds = useMemo(() => {
     const set = new Set<string>();
     assessmentAttemptsList.forEach(a => {
       if (
         a['Student ID'] &&
-        a['Student ID'] !== 'P03KU24M015012' &&
         a['Completion Status'] === 'Completed'
       ) {
         set.add(a['Student ID']);
@@ -401,7 +400,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           colorScheme="purple"
           subtext={
             studentsNotCompletedCount > 0
-              ? `${studentsCompletedCount} Completed • ${studentsNotCompletedCount} Pending (Harsh)`
+              ? `${studentsCompletedCount} Completed • ${studentsNotCompletedCount} Pending`
               : `${studentsCompletedCount} Completed • 0 Pending`
           }
           change={`${assessmentCompletionRate}% Completed`}
