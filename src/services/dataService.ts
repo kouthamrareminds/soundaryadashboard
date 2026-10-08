@@ -18,9 +18,9 @@ export { AuthForbiddenError };
 
 // ─── Storage Keys & Schema Version ──────────────────────────────────────────
 
-const SCHEMA_VERSION = 'v2026.10.07_placement_update_v40';
+const SCHEMA_VERSION = 'v2026.10.08_relationship_owner_v42';
 const VERSION_STORAGE_KEY = 'rareminds_portal_schema_version';
-const STORAGE_KEY = 'rareminds_portal_real_db_v40';
+const STORAGE_KEY = 'rareminds_portal_real_db_v42';
 
 // ─── Stream Normalizer Helper ───────────────────────────────────────────────
 export function normalizeStreamName(stream?: string, programme?: string, spec?: string): string {
@@ -91,16 +91,43 @@ export function normalizeStreamName(stream?: string, programme?: string, spec?: 
   return stream || 'MCA';
 }
 
-function sanitizeDatabase(database: DatabaseState): DatabaseState {
+export function sanitizeDatabase(database: DatabaseState): DatabaseState {
   if (Array.isArray(database.students)) {
-    database.students = database.students.map(s => ({
-      ...s,
-      'Assigned Training Stream': normalizeStreamName(
-        s['Assigned Training Stream'],
-        s.Programme,
-        s['Primary Specialisation']
-      ),
-    }));
+    database.students = database.students
+      .filter(s => s['Student ID'] !== 'P03KU24M015012' && s['Full Name'] !== 'Harsha')
+      .map(s => ({
+        ...s,
+        'Assigned Training Stream': normalizeStreamName(
+          s['Assigned Training Stream'],
+          s.Programme,
+          s['Primary Specialisation']
+        ),
+      }));
+  }
+  if (Array.isArray(database.assessmentAttempts)) {
+    database.assessmentAttempts = database.assessmentAttempts.filter(
+      a => a['Student ID'] !== 'P03KU24M015012'
+    );
+  }
+  if (Array.isArray(database.careerProfiles)) {
+    database.careerProfiles = database.careerProfiles.filter(
+      p => p['Student ID'] !== 'P03KU24M015012'
+    );
+  }
+  if (Array.isArray(database.studentFiles)) {
+    database.studentFiles = database.studentFiles.filter(
+      f => f['Student ID'] !== 'P03KU24M015012'
+    );
+  }
+  if (Array.isArray(database.attendance)) {
+    database.attendance = database.attendance.filter(
+      a => a['Student ID'] !== 'P03KU24M015012'
+    );
+  }
+  if (Array.isArray(database.studentSubmissions)) {
+    database.studentSubmissions = database.studentSubmissions.filter(
+      s => s['Student ID'] !== 'P03KU24M015012'
+    );
   }
   if (Array.isArray(database.companies)) {
     if (database.companies.length > 0 && (!database.companies[0]['Company ID'] || !database.companies[0]['Company Name'])) {
@@ -110,6 +137,7 @@ function sanitizeDatabase(database: DatabaseState): DatabaseState {
       ...c,
       Website: null,
       'Company Name': c['Company Name'] === 'Radall' ? 'Radiall' : c['Company Name'],
+      'Relationship Owner': 'Rareminds Corporate Relations',
     }));
   }
   if (Array.isArray(database.opportunities)) {
@@ -122,7 +150,7 @@ function sanitizeDatabase(database: DatabaseState): DatabaseState {
   }
   if (Array.isArray(database.applications)) {
     database.applications = database.applications
-      .filter(a => a['Student ID'] !== 'P03KU24M015037' && a['Application ID'] !== 'APP-0037' && a['Student Name'] !== 'Likhitha B')
+      .filter(a => a['Student ID'] !== 'P03KU24M015037' && a['Student ID'] !== 'P03KU24M015012' && a['Application ID'] !== 'APP-0037')
       .map(a => {
       let updated = {
         ...a,
@@ -193,8 +221,9 @@ export function saveDatabase(db: DatabaseState): void {
         localStorage.removeItem(k);
       }
     }
+    const sanitized = sanitizeDatabase(db);
     localStorage.setItem(VERSION_STORAGE_KEY, SCHEMA_VERSION);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(sanitized));
   } catch (err) {
     console.warn('[dataService] Could not persist to localStorage — storage may be full.', err);
   }

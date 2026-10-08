@@ -7,7 +7,7 @@
  */
 
 import { DatabaseState, initialDatabase } from '@/data/mockData';
-import { loadDatabase, saveDatabase } from '@/services/dataService';
+import { loadDatabase, saveDatabase, sanitizeDatabase } from '@/services/dataService';
 
 export const DEFAULT_SPREADSHEET_ID = '1YvkSqmwgsboaKBmesFWmAArzWdgYgpf04DoyJOyBth8';
 export const SPREADSHEET_URL = `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/edit?usp=sharing`;
@@ -173,13 +173,14 @@ export async function syncAllFromGoogleSheets(
           });
 
           if (totalSyncedRows > 0) {
-            saveDatabase(newDb);
+            const cleanDb = sanitizeDatabase(newDb);
+            saveDatabase(cleanDb);
             localStorage.setItem('rareminds_last_gsheet_sync', new Date().toISOString());
             return {
               success: true,
               totalSyncedRows,
               results,
-              updatedDb: newDb,
+              updatedDb: cleanDb,
               message: `Successfully synced ${totalSyncedRows} records from Google Sheets Web App!`,
             };
           }
@@ -226,13 +227,14 @@ export async function syncAllFromGoogleSheets(
   }
 
   if (anySheetSynced) {
-    saveDatabase(newDb);
+    const cleanDb = sanitizeDatabase(newDb);
+    saveDatabase(cleanDb);
     localStorage.setItem('rareminds_last_gsheet_sync', new Date().toISOString());
     return {
       success: true,
       totalSyncedRows,
       results,
-      updatedDb: newDb,
+      updatedDb: cleanDb,
       message: `Successfully synced ${totalSyncedRows} records from Google Sheets!`,
     };
   }
