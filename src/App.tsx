@@ -94,11 +94,13 @@ export const App: React.FC = () => {
       firstId.startsWith('SIMS_') ||
       (db.students?.length !== initialDatabase.students.length) ||
       (db.attendance?.length < 900) ||
+      (db.studentFiles?.length < 360) ||
       (db.assessmentAttempts?.length < 500) ||
       (db.sessions?.find((s: any) => s['Session ID'] === 'SES-MBA-016')?.['Actual Learning Hours'] !== 3) ||
       (testFile && testFile['File Name'] === 'Submission 1') ||
       (db.opportunities?.length < 10) ||
       (db.companies?.length < 10) ||
+      (!db.companies?.[0]?.['Company ID'] || !db.companies?.[0]?.['Company Name']) ||
       (!db.sessions?.[0]?.['Actual Learning Hours']) ||
       (db.students?.some((s: any) => s['Student ID'] === 'Po4ku24m015060')) ||
       (db.companies?.some((c: any) => c['Website'])) ||
