@@ -18,9 +18,9 @@ export { AuthForbiddenError };
 
 // ─── Storage Keys & Schema Version ──────────────────────────────────────────
 
-const SCHEMA_VERSION = 'v2026.10.08_relationship_owner_v42';
+const SCHEMA_VERSION = 'v2026.10.08_rakshitha_purged_v43';
 const VERSION_STORAGE_KEY = 'rareminds_portal_schema_version';
-const STORAGE_KEY = 'rareminds_portal_real_db_v42';
+const STORAGE_KEY = 'rareminds_portal_real_db_v43';
 
 // ─── Stream Normalizer Helper ───────────────────────────────────────────────
 export function normalizeStreamName(stream?: string, programme?: string, spec?: string): string {
@@ -94,7 +94,13 @@ export function normalizeStreamName(stream?: string, programme?: string, spec?: 
 export function sanitizeDatabase(database: DatabaseState): DatabaseState {
   if (Array.isArray(database.students)) {
     database.students = database.students
-      .filter(s => s['Student ID'] !== 'P03KU24M015012' && s['Full Name'] !== 'Harsha')
+      .filter(
+        s =>
+          s['Student ID'] !== 'P03KU24M015012' &&
+          s['Full Name'] !== 'Harsha' &&
+          s['Student ID'] !== 'P03KU24M015063' &&
+          s['Full Name'] !== 'Rakshitha M R'
+      )
       .map(s => ({
         ...s,
         'Assigned Training Stream': normalizeStreamName(
@@ -106,27 +112,27 @@ export function sanitizeDatabase(database: DatabaseState): DatabaseState {
   }
   if (Array.isArray(database.assessmentAttempts)) {
     database.assessmentAttempts = database.assessmentAttempts.filter(
-      a => a['Student ID'] !== 'P03KU24M015012'
+      a => a['Student ID'] !== 'P03KU24M015012' && a['Student ID'] !== 'P03KU24M015063'
     );
   }
   if (Array.isArray(database.careerProfiles)) {
     database.careerProfiles = database.careerProfiles.filter(
-      p => p['Student ID'] !== 'P03KU24M015012'
+      p => p['Student ID'] !== 'P03KU24M015012' && p['Student ID'] !== 'P03KU24M015063'
     );
   }
   if (Array.isArray(database.studentFiles)) {
     database.studentFiles = database.studentFiles.filter(
-      f => f['Student ID'] !== 'P03KU24M015012'
+      f => f['Student ID'] !== 'P03KU24M015012' && f['Student ID'] !== 'P03KU24M015063'
     );
   }
   if (Array.isArray(database.attendance)) {
     database.attendance = database.attendance.filter(
-      a => a['Student ID'] !== 'P03KU24M015012'
+      a => a['Student ID'] !== 'P03KU24M015012' && a['Student ID'] !== 'P03KU24M015063'
     );
   }
   if (Array.isArray(database.studentSubmissions)) {
     database.studentSubmissions = database.studentSubmissions.filter(
-      s => s['Student ID'] !== 'P03KU24M015012'
+      s => s['Student ID'] !== 'P03KU24M015012' && s['Student ID'] !== 'P03KU24M015063'
     );
   }
   if (Array.isArray(database.companies)) {
