@@ -102,7 +102,7 @@ export const AttendanceMatrixView: React.FC<AttendanceMatrixViewProps> = ({
 
       // Positive Engagement Tiers (Option 2)
       let tier: 'achiever' | 'active' | 'catchup' = 'catchup';
-      let tierLabel = 'Catch-up Track';
+      let tierLabel = 'Attendance Alert';
       if (daysPresent >= 8) {
         tier = 'achiever';
         tierLabel = 'Consistent Achiever';
@@ -295,7 +295,7 @@ export const AttendanceMatrixView: React.FC<AttendanceMatrixViewProps> = ({
           <span className="text-[11px] text-blue-700/80 mt-1 block">4–7 Sessions • Steady participation</span>
         </div>
 
-        {/* Card 4: Catch-up Track */}
+        {/* Card 4: Attendance Alert */}
         <div
           onClick={() => setSelectedTier(prev => prev === 'catchup' ? null : 'catchup')}
           className={`p-5 rounded-2xl border transition-all cursor-pointer shadow-xs hover:shadow-md ${
@@ -307,14 +307,14 @@ export const AttendanceMatrixView: React.FC<AttendanceMatrixViewProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
               <Target className="w-3.5 h-3.5 text-amber-600" />
-              <span>Catch-up Track</span>
+              <span>Attendance Alert</span>
             </span>
             <div className="p-2 rounded-xl bg-amber-100 text-amber-700">
               <Clock className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2 text-2xl font-bold text-amber-800 font-mono">{cohortMetrics.catchupCount}</div>
-          <span className="text-[11px] text-amber-700/80 mt-1 block">Scheduled for supplementary sessions</span>
+          <span className="text-[11px] text-amber-700/80 mt-1 block">&lt; 4 Sessions • Low attendance record</span>
         </div>
       </div>
 
@@ -324,7 +324,7 @@ export const AttendanceMatrixView: React.FC<AttendanceMatrixViewProps> = ({
           <div className="flex items-center gap-2 text-blue-900 font-medium">
             <Filter className="w-3.5 h-3.5 text-blue-600" />
             <span>
-              Viewing tier: <strong>{selectedTier === 'achiever' ? 'Consistent Achievers' : selectedTier === 'active' ? 'Active Learners' : 'Catch-up Track'}</strong> ({filteredStudents.length} students)
+              Viewing tier: <strong>{selectedTier === 'achiever' ? 'Consistent Achievers' : selectedTier === 'active' ? 'Active Learners' : 'Attendance Alert'}</strong> ({filteredStudents.length} students)
             </span>
           </div>
           <button

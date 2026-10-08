@@ -581,7 +581,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           value={activeOpportunities}
           iconName="Briefcase"
           colorScheme="blue"
-          subtext="Campus drives currently open"
           change={`${relevantApps.length} Suitable Opportunities`}
           delay={0.3}
         />

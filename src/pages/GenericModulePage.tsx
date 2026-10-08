@@ -412,9 +412,6 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
       list.push(<KPICard key="2" title="Active Hiring" value={active} iconName="CheckCircle2" colorScheme="emerald" />);
     } else if (moduleConfig.id === 'opportunities') {
       const open = filteredData.filter(r => r['Opportunity Status'] === 'Open').length;
-      const filled = filteredData.filter(r => r['Opportunity Status'] === 'Filled').length;
-      const closed = filteredData.filter(r => r['Opportunity Status'] === 'Closed').length;
-      const totalOpenings = filteredData.reduce((acc, r) => acc + (Number(r['Openings Count']) || 0), 0);
       const openOpenings = filteredData
         .filter(r => r['Opportunity Status'] === 'Open')
         .reduce((acc, r) => acc + (Number(r['Openings Count']) || 0), 0);
@@ -422,32 +419,22 @@ export const GenericModulePage: React.FC<GenericModulePageProps> = ({
       list.push(
         <KPICard
           key="1"
-          title="Total Opportunities"
-          value={total}
+          title="Active Job Roles"
+          value={open}
           iconName="Briefcase"
           colorScheme="blue"
-          subtext={`${open} Open • ${filled} Filled • ${closed} Closed`}
+          change="Open for Applications"
         />
       );
       list.push(
         <KPICard
           key="2"
-          title="Active Drives"
-          value={open}
-          iconName="Send"
-          colorScheme="emerald"
-          change={`${openOpenings} Open Seats`}
-          subtext="Currently accepting student applications"
-        />
-      );
-      list.push(
-        <KPICard
-          key="3"
-          title="Total Openings"
-          value={totalOpenings}
+          title="Available Vacancies"
+          value={openOpenings}
           iconName="Users"
-          colorScheme="indigo"
-          subtext={`${openOpenings} vacancies in active open drives`}
+          colorScheme="emerald"
+          change="Open Student Seats"
+          subtext={`Across ${open} active hiring drives`}
         />
       );
     } else if (moduleConfig.id === 'applications' && data.length > 0) {
